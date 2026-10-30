@@ -1,0 +1,4 @@
+# Local payment images should be reviewed before publication
+assets/wechat-qr.local.*
+assets/alipay-qr.local.*
+*.log
