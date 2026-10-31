@@ -83,6 +83,42 @@
     methods.forEach((method) => list.append(createAction(method)));
   };
 
+  const renderPlans = () => {
+    const plans = config.plans || [];
+    if (!plans.length) return;
+    const section = document.querySelector("#plan-preview");
+    const grid = document.querySelector("#plan-grid");
+    const link = document.querySelector("#plans-link");
+    if (config.plansPageUrl) link.href = config.plansPageUrl;
+    plans.forEach((plan) => {
+      const card = document.createElement("article");
+      const heading = document.createElement("div");
+      const name = document.createElement("strong");
+      name.textContent = plan.name;
+      const note = document.createElement("small");
+      note.textContent = plan.note || "";
+      heading.append(name, note);
+
+      const price = document.createElement("div");
+      price.className = "plan-price";
+      const amount = document.createElement("strong");
+      amount.textContent = plan.price;
+      const cycle = document.createElement("span");
+      cycle.textContent = "/月";
+      price.append(amount, cycle);
+
+      const features = document.createElement("ul");
+      for (const feature of plan.features || []) {
+        const item = document.createElement("li");
+        item.textContent = feature;
+        features.append(item);
+      }
+      card.append(heading, price, features);
+      grid.append(card);
+    });
+    section.hidden = false;
+  };
+
   const fetchJson = async (url, timeout = 8000) => {
     const controller = new AbortController();
     const timer = window.setTimeout(() => controller.abort(), timeout);
@@ -254,6 +290,7 @@
   };
 
   renderMethods();
+  renderPlans();
   void loadCommunity();
 
   document.querySelector("[data-close-dialog]")?.addEventListener("click", () => dialog.close());
