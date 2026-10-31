@@ -14,6 +14,9 @@ if ROOT not in sys.path:
 import service
 
 
+HAS_BAMBU_PROFILES = bool(service.CORE.app._profiles_root())
+
+
 SETTINGS = {
     "printer": "Bambu Lab H2S",
     "material": "PLA",
@@ -122,10 +125,15 @@ def main():
                         "seam_position=nearest" in command
                         and "ironing_type=topmost" in command,
                         command))
-    passed.append(check("H2S 进入命令与摘要",
-                        "Bambu Lab H2S 0.4 nozzle" in command
-                        and spec["parts"][0] == "H2S",
-                        repr(spec["parts"])))
+    expected_machine = (
+        "Bambu Lab H2S 0.4 nozzle" if HAS_BAMBU_PROFILES else "H2S"
+    )
+    passed.append(check(
+        "H2S 进入命令与摘要",
+        f"--machine {expected_machine}" in command
+        and spec["parts"][0] == "H2S",
+        repr(spec["parts"]),
+    ))
     passed.append(check(
         "单文件输出使用明确命名",
         os.path.basename(spec["output"])
@@ -292,11 +300,26 @@ def main():
                             len(per_spec.get("commands") or []) == 2,
                             repr(per_spec.get("commands"))))
         commands = per_spec.get("commands") or []
-        passed.append(check("每文件参数没有串到另一个文件",
-                            len(commands) == 2
-                            and "PETG" in " ".join(commands[0])
-                            and "PLA Basic" in " ".join(commands[1]),
-                            repr(commands)))
+        first_command = " ".join(commands[0]) if len(commands) == 2 else ""
+        second_command = " ".join(commands[1]) if len(commands) == 2 else ""
+        isolated = (
+            len(commands) == 2
+            and first in first_command
+            and second in second_command
+            and second not in first_command
+            and first not in second_command
+        )
+        if HAS_BAMBU_PROFILES:
+            isolated = (
+                isolated
+                and "PETG" in first_command
+                and "PLA Basic" in second_command
+            )
+        passed.append(check(
+            "每文件参数没有串到另一个文件",
+            isolated,
+            repr(commands),
+        ))
 
     with tempfile.TemporaryDirectory(prefix="v2_tight_single_") as work:
         tight_settings = dict(SETTINGS)
