@@ -22,14 +22,20 @@ window.SUPPORT_CONFIG = {
       features: ["版本提醒", "公开问卷", "可选鸣谢墙"]
     },
     {
+      name: "一卷耗材",
+      price: "35",
+      note: "支持耗材",
+      features: ["月度进展", "需求池", "阶段问卷"]
+    },
+    {
       name: "内测同行",
-      price: "49",
+      price: "69",
       note: "参与测试",
       features: ["研发测试包", "测试清单", "反馈优先复核"]
     },
     {
       name: "深度共建",
-      price: "99",
+      price: "128",
       note: "参与方向",
       features: ["功能投票", "月度验证场景", "特别感谢"]
     }
