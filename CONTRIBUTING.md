@@ -1,7 +1,7 @@
 # Contributing
 
 感谢帮助测试 PrintFarm Assistant。提交问题前请先确认使用的是最新
-[Release](https://github.com/Bronove/tuozhu-assistant/releases)。
+[Release](https://github.com/Bronove/printfarm-assistant/releases)。
 
 ## 提交问题
 

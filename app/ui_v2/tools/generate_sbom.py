@@ -93,7 +93,7 @@ def generate(app_dir: Path, output: Path, product_version: str) -> None:
         "SPDXID": "SPDXRef-DOCUMENT",
         "name": f"PrintFarmAssistant-{product_version}",
         "documentNamespace": (
-            "https://github.com/Bronove/tuozhu-assistant/sbom/"
+            "https://github.com/Bronove/printfarm-assistant/sbom/"
             + product_version
         ),
         "creationInfo": {

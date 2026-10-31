@@ -2,8 +2,7 @@
 
 ## Before pushing
 
-1. Confirm the repository is intended to be renamed from
-   `Bronove/tuozhu-assistant` to `Bronove/printfarm-assistant`.
+1. Confirm the public repository is `Bronove/printfarm-assistant`.
 2. Run the public-source checks from `app/ui_v2`:
 
    ```powershell

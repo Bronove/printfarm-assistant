@@ -5,7 +5,7 @@
 > 打印农场助手是非官方项目，与 Bambu Lab 无隶属、合作或授权关系。Bambu Studio 和打印机固件需由用户自行安装与维护。
 
 <p align="center">
-  <a href="https://github.com/Bronove/tuozhu-assistant/releases/latest">
+  <a href="https://github.com/Bronove/printfarm-assistant/releases/latest">
     <img src="https://img.shields.io/badge/下载-Windows_64_位-176B4D?style=for-the-badge" alt="下载 Windows 64 位版">
   </a>
 </p>
@@ -14,7 +14,7 @@
 
 ## 下载
 
-请从 [Releases](https://github.com/Bronove/tuozhu-assistant/releases) 下载
+请从 [Releases](https://github.com/Bronove/printfarm-assistant/releases) 下载
 `PrintFarmAssistant-v1.5.0-beta.1-win64-setup.exe`。
 
 当前测试版提供：
