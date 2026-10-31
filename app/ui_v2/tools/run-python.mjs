@@ -4,6 +4,11 @@ const python = process.env.PRINTFARM_PYTHON || "python";
 const result = spawnSync(python, process.argv.slice(2), {
   stdio: "inherit",
   windowsHide: true,
+  env: {
+    ...process.env,
+    PYTHONIOENCODING: "utf-8",
+    PYTHONUTF8: "1",
+  },
 });
 
 if (result.error) {
