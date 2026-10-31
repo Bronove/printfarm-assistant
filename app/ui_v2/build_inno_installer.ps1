@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$Version = "1.5.0-beta.1",
     [string]$SourceDir = "",
     [string]$OutputDir = ""
