@@ -12,10 +12,10 @@ window.SUPPORT_CONFIG = {
       id: "afdian",
       label: "爱发电",
       short: "国内推荐",
-      description: "在爱发电完成支持，适合使用微信或支付宝。",
+      description: "查看月度支持方案或自选金额，适合使用微信与支付宝。",
       type: "link",
-      url: "",
-      actionLabel: "前往爱发电"
+      url: "https://afdian.com/a/printfarm-assistant",
+      actionLabel: "查看支持方案"
     },
     {
       id: "wechat",

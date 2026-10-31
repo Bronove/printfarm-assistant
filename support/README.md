@@ -10,7 +10,7 @@ https://bronove.github.io/printfarm-assistant/support/
 
 编辑 `support-config.js`：
 
-- 爱发电：填写 `id: "afdian"` 的 `url`。
+- 爱发电：`https://afdian.com/a/printfarm-assistant`。
 - GitHub Sponsors：填写 `id: "sponsors"` 的 `url`。
 - 微信或支付宝：把收款码放进 `assets/`，并填写对应的 `image` 路径。
 

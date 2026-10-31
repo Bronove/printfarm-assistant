@@ -78,9 +78,8 @@
 
 软件保持免费，个人和打印农场可免费使用并销售打印成品。当前公开测试版不设置付费墙，也不要求登录或激活。
 
-打赏完全自愿，但当前还没有绑定作者的收款方式，因此
-[支持与贡献页](https://bronove.github.io/printfarm-assistant/support/)仍会显示“正在接入”。
-页面同时展示 GitHub 代码贡献榜和经确认的特别贡献；打赏金额不会影响排名。
-在打赏入口开放前，Star、提交问题和帮助测试就是最直接的支持。
+打赏完全自愿，可以通过[爱发电](https://afdian.com/a/printfarm-assistant)
+查看月度支持方案或自选金额。页面同时展示 GitHub 代码贡献榜和经确认的特别贡献；
+打赏金额不会影响排名，也不会解锁或限制软件功能。
 
-打赏链接或收款二维码接入后，也会同步补充在这一节。
+也可以访问[支持与贡献页](https://bronove.github.io/printfarm-assistant/support/)。

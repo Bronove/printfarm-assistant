@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>打印农场助手 · 爱发电封面</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+    body {
+      font-family: "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+      color: #f4f8f4;
+      background: #10231a;
+    }
+    .cover {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      min-height: 360px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 78% 42%, rgba(57, 129, 91, .32), transparent 34%),
+        linear-gradient(118deg, #10231a 0%, #173626 54%, #0d1d16 100%);
+    }
+    .cover::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .12;
+      background-image:
+        linear-gradient(rgba(255,255,255,.19) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.19) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(90deg, #000, transparent 76%);
+    }
+    .copy {
+      position: absolute;
+      z-index: 2;
+      left: 64px;
+      top: 50%;
+      width: 520px;
+      transform: translateY(-50%);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand img {
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.26);
+    }
+    .brand-label {
+      color: #cae98c;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+    h1 {
+      margin: 25px 0 0;
+      font-size: 58px;
+      font-weight: 800;
+      line-height: 1.06;
+      letter-spacing: -.055em;
+    }
+    .features {
+      margin: 22px 0 0;
+      color: #d9e7dc;
+      font-size: 20px;
+      font-weight: 550;
+      letter-spacing: .01em;
+    }
+    .features span + span::before {
+      content: "·";
+      margin: 0 10px;
+      color: #8fb39c;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      padding: 7px 12px;
+      border: 1px solid rgba(202, 233, 140, .38);
+      border-radius: 999px;
+      color: #dff2bc;
+      background: rgba(202, 233, 140, .08);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .tag::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #cae98c;
+      box-shadow: 0 0 0 4px rgba(202, 233, 140, .12);
+    }
+    .screenshot {
+      position: absolute;
+      z-index: 1;
+      top: 46px;
+      right: -244px;
+      width: 1040px;
+      height: 292px;
+      overflow: hidden;
+      border: 1px solid rgba(202, 233, 140, .23);
+      border-radius: 19px 0 0 19px;
+      background: #f4f7f4;
+      box-shadow: -22px 24px 70px rgba(0,0,0,.34);
+      transform: perspective(1200px) rotateY(-5deg) rotateX(1deg);
+      transform-origin: right center;
+    }
+    .screenshot img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      object-position: top left;
+    }
+    .screenshot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(16,35,26,.22), transparent 30%);
+      pointer-events: none;
+    }
+    .corner {
+      position: absolute;
+      z-index: 3;
+      right: 30px;
+      bottom: 23px;
+      color: rgba(231, 242, 233, .66);
+      font-size: 12px;
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 1000px) {
+      .cover { min-height: 400px; }
+      .copy {
+        left: 42px;
+        width: 330px;
+      }
+      .brand img {
+        width: 50px;
+        height: 50px;
+      }
+      h1 {
+        margin-top: 21px;
+        font-size: 43px;
+      }
+      .features {
+        max-width: 280px;
+        margin-top: 18px;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .features span {
+        display: block;
+      }
+      .features span + span::before {
+        content: none;
+      }
+      .tag {
+        margin-top: 22px;
+      }
+      .screenshot {
+        top: 65px;
+        right: -390px;
+        width: 820px;
+        height: 292px;
+      }
+      .corner { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="cover">
+    <section class="copy">
+      <div class="brand">
+        <img src="../../assets/icon.png" alt="">
+        <span class="brand-label">打印农场助手</span>
+      </div>
+      <h1>批量切片<br>更快、更省心。</h1>
+      <p class="features">
+        <span>批量切片</span><span>自动摆盘</span><span>最少支撑</span>
+      </p>
+      <span class="tag">面向 Bambu Studio · 基础功能免费</span>
+    </section>
+    <div class="screenshot">
+      <img src="../../docs/assets/main-window.png" alt="">
+    </div>
+    <span class="corner">PrintFarm Assistant</span>
+  </main>
+</body>
+</html>
