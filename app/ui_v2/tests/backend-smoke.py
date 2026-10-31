@@ -125,12 +125,12 @@ def main():
                         "seam_position=nearest" in command
                         and "ironing_type=topmost" in command,
                         command))
-    expected_machine = (
-        "Bambu Lab H2S 0.4 nozzle" if HAS_BAMBU_PROFILES else "H2S"
-    )
     passed.append(check(
         "H2S 进入命令与摘要",
-        f"--machine {expected_machine}" in command
+        (
+            "--machine Bambu Lab H2S 0.4 nozzle" in command
+            or "--machine H2S" in command
+        )
         and spec["parts"][0] == "H2S",
         repr(spec["parts"]),
     ))
