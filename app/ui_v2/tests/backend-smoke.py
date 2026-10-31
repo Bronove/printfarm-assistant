@@ -129,6 +129,7 @@ def main():
         "H2S 进入命令与摘要",
         (
             "--machine Bambu Lab H2S 0.4 nozzle" in command
+            or "--machine Bambu Lab H2S" in command
             or "--machine H2S" in command
         )
         and spec["parts"][0] == "H2S",
