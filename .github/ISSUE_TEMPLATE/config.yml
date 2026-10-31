@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 安全问题
+    url: https://github.com/Bronove/tuozhu-assistant/security
+    about: 请勿公开漏洞、凭据或敏感日志

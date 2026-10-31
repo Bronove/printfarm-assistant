@@ -1,0 +1,3482 @@
+{
+ "layer_height": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Layer height",
+  "group_cn": "层高",
+  "row": "",
+  "row_cn": ""
+ },
+ "initial_layer_print_height": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Layer height",
+  "group_cn": "层高",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_mixed_color_sublayer": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Layer height",
+  "group_cn": "层高",
+  "row": "",
+  "row_cn": ""
+ },
+ "line_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Line width",
+  "group_cn": "线宽",
+  "row": "",
+  "row_cn": ""
+ },
+ "initial_layer_line_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Line width",
+  "group_cn": "线宽",
+  "row": "",
+  "row_cn": ""
+ },
+ "initial_layer_infill_line_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Line width",
+  "group_cn": "线宽",
+  "row": "",
+  "row_cn": ""
+ },
+ "outer_wall_line_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Line width",
+  "group_cn": "线宽",
+  "row": "",
+  "row_cn": ""
+ },
+ "inner_wall_line_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Line width",
+  "group_cn": "线宽",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_surface_line_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Line width",
+  "group_cn": "线宽",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_line_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Line width",
+  "group_cn": "线宽",
+  "row": "",
+  "row_cn": ""
+ },
+ "internal_solid_infill_line_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Line width",
+  "group_cn": "线宽",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_line_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Line width",
+  "group_cn": "线宽",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_position": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_placement_away_from_overhangs": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_gap": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_slope_conditional": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "scarf_angle_threshold": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_slope_entire_loop": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_slope_steps": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_slope_inner_walls": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "override_filament_scarf_seam_setting": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_slope_type": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_slope_start_height": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_slope_gap": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "seam_slope_min_length": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "wipe_speed": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "role_base_wipe_speed": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Seam",
+  "group_cn": "接缝",
+  "row": "",
+  "row_cn": ""
+ },
+ "slice_closing_radius": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "resolution": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_arc_fitting": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "xy_hole_compensation": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "xy_contour_compensation": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_circle_compensation": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "circle_compensation_manual_offset": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "elefant_foot_compensation": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "precise_outer_wall": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "precise_z_height": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Precision",
+  "group_cn": "精度",
+  "row": "",
+  "row_cn": ""
+ },
+ "ironing_type": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Ironing",
+  "group_cn": "熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "ironing_pattern": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Ironing",
+  "group_cn": "熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "ironing_speed": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Ironing",
+  "group_cn": "熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "ironing_flow": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Ironing",
+  "group_cn": "熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "ironing_spacing": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Ironing",
+  "group_cn": "熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "ironing_inset": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Ironing",
+  "group_cn": "熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "ironing_direction": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Ironing",
+  "group_cn": "熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "wall_generator": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Wall generator",
+  "group_cn": "墙生成器",
+  "row": "",
+  "row_cn": ""
+ },
+ "wall_transition_angle": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Wall generator",
+  "group_cn": "墙生成器",
+  "row": "",
+  "row_cn": ""
+ },
+ "wall_transition_filter_deviation": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Wall generator",
+  "group_cn": "墙生成器",
+  "row": "",
+  "row_cn": ""
+ },
+ "wall_transition_length": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Wall generator",
+  "group_cn": "墙生成器",
+  "row": "",
+  "row_cn": ""
+ },
+ "wall_distribution_count": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Wall generator",
+  "group_cn": "墙生成器",
+  "row": "",
+  "row_cn": ""
+ },
+ "min_bead_width": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Wall generator",
+  "group_cn": "墙生成器",
+  "row": "",
+  "row_cn": ""
+ },
+ "min_feature_size": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Wall generator",
+  "group_cn": "墙生成器",
+  "row": "",
+  "row_cn": ""
+ },
+ "wall_sequence": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "is_infill_first": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "bridge_flow": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "thick_bridges": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "counterbore_hole_bridging": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "print_flow_ratio": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_solid_infill_flow_ratio": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "initial_layer_flow_ratio": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_one_wall_type": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_area_threshold": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "only_one_wall_first_layer": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "detect_overhang_wall": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "smooth_speed_discontinuity_area": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "smooth_coefficient": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "reduce_crossing_wall": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "max_travel_detour_distance": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "avoid_crossing_wall_includes_support": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "z_direction_outwall_speed_continuous": {
+  "page": "Quality",
+  "page_cn": "质量",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "wall_loops": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Walls",
+  "group_cn": "墙",
+  "row": "",
+  "row_cn": ""
+ },
+ "alternate_extra_wall": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Walls",
+  "group_cn": "墙",
+  "row": "",
+  "row_cn": ""
+ },
+ "embedding_wall_into_infill": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Walls",
+  "group_cn": "墙",
+  "row": "",
+  "row_cn": ""
+ },
+ "detect_thin_wall": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Walls",
+  "group_cn": "墙",
+  "row": "",
+  "row_cn": ""
+ },
+ "interface_shells": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_surface_pattern": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_surface_density": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_shell_layers": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_shell_thickness": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_color_penetration_layers": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "bottom_surface_pattern": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "bottom_surface_density": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "bottom_shell_layers": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "bottom_shell_thickness": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "bottom_color_penetration_layers": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "infill_instead_top_bottom_surfaces": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "internal_solid_infill_pattern": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Top/bottom shells",
+  "group_cn": "顶部/底部外壳",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_density": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "fill_multiline": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_pattern": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "locked_skin_infill_pattern": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "skin_infill_density": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "locked_skeleton_infill_pattern": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "skeleton_infill_density": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "infill_lock_depth": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "skin_infill_depth": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "skin_infill_line_width": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "skeleton_infill_line_width": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "symmetric_infill_y_axis": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "infill_shift_step": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_lattice_angle_1": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_lattice_angle_2": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "infill_rotate_step": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_anchor": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_anchor_max": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "filter_out_gap_fill": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Sparse infill",
+  "group_cn": "稀疏填充",
+  "row": "",
+  "row_cn": ""
+ },
+ "infill_wall_overlap": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "monotonic_travel_into_wall": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "infill_direction": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "bridge_angle": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "minimum_sparse_infill_area": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "infill_combination": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "detect_narrow_internal_solid_infill": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "sub_top_surface_pattern": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "ensure_vertical_shell_thickness": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "detect_floating_vertical_shell": {
+  "page": "Strength",
+  "page_cn": "强度",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "initial_layer_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Initial layer speed",
+  "group_cn": "首层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "initial_layer_infill_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Initial layer speed",
+  "group_cn": "首层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "outer_wall_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "inner_wall_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "small_perimeter_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "small_perimeter_threshold": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "internal_solid_infill_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "vertical_shell_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_surface_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_overhang_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "overhang_1_4_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "Overhang speed",
+  "row_cn": "悬垂速度"
+ },
+ "overhang_2_4_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "Overhang speed",
+  "row_cn": "悬垂速度"
+ },
+ "overhang_3_4_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "Overhang speed",
+  "row_cn": "悬垂速度"
+ },
+ "overhang_4_4_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "Overhang speed",
+  "row_cn": "悬垂速度"
+ },
+ "overhang_totally_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "Overhang speed",
+  "row_cn": "悬垂速度"
+ },
+ "enable_height_slowdown": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "slowdown_start_height": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "slowdown_start_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "slowdown_start_acc": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "slowdown_end_height": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "slowdown_end_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "slowdown_end_acc": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "bridge_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "gap_infill_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_interface_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Other layers speed",
+  "group_cn": "其他层速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "travel_speed": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Travel speed",
+  "group_cn": "空驶速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "default_acceleration": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "travel_acceleration": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "travel_short_distance_acceleration": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "initial_layer_travel_acceleration": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "initial_layer_acceleration": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "outer_wall_acceleration": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "inner_wall_acceleration": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_surface_acceleration": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_acceleration": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "accel_to_decel_enable": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "accel_to_decel_factor": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Acceleration",
+  "group_cn": "加速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "default_jerk": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Jerk(XY)",
+  "group_cn": "抖动（XY轴）",
+  "row": "",
+  "row_cn": ""
+ },
+ "outer_wall_jerk": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Jerk(XY)",
+  "group_cn": "抖动（XY轴）",
+  "row": "",
+  "row_cn": ""
+ },
+ "inner_wall_jerk": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Jerk(XY)",
+  "group_cn": "抖动（XY轴）",
+  "row": "",
+  "row_cn": ""
+ },
+ "infill_jerk": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Jerk(XY)",
+  "group_cn": "抖动（XY轴）",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_surface_jerk": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Jerk(XY)",
+  "group_cn": "抖动（XY轴）",
+  "row": "",
+  "row_cn": ""
+ },
+ "initial_layer_jerk": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Jerk(XY)",
+  "group_cn": "抖动（XY轴）",
+  "row": "",
+  "row_cn": ""
+ },
+ "travel_jerk": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Jerk(XY)",
+  "group_cn": "抖动（XY轴）",
+  "row": "",
+  "row_cn": ""
+ },
+ "max_volumetric_extrusion_rate_slope_positive": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Jerk(XY)",
+  "group_cn": "抖动（XY轴）",
+  "row": "",
+  "row_cn": ""
+ },
+ "max_volumetric_extrusion_rate_slope_negative": {
+  "page": "Speed",
+  "page_cn": "速度",
+  "group": "Jerk(XY)",
+  "group_cn": "抖动（XY轴）",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_support": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support",
+  "group_cn": "支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_type": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support",
+  "group_cn": "支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_style": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support",
+  "group_cn": "支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_threshold_angle": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support",
+  "group_cn": "支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_on_build_plate_only": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support",
+  "group_cn": "支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_critical_regions_only": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support",
+  "group_cn": "支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_remove_small_overhang": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support",
+  "group_cn": "支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "raft_layers": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Raft",
+  "group_cn": "筏层",
+  "row": "",
+  "row_cn": ""
+ },
+ "raft_contact_distance": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Raft",
+  "group_cn": "筏层",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_filament": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support filament",
+  "group_cn": "支撑耗材",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_interface_filament": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support filament",
+  "group_cn": "支撑耗材",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_interface_not_for_body": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support filament",
+  "group_cn": "支撑耗材",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_support_ironing": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support ironing",
+  "group_cn": "支撑熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_ironing_pattern": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support ironing",
+  "group_cn": "支撑熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_ironing_speed": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support ironing",
+  "group_cn": "支撑熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_ironing_flow": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support ironing",
+  "group_cn": "支撑熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_ironing_spacing": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support ironing",
+  "group_cn": "支撑熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_ironing_inset": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support ironing",
+  "group_cn": "支撑熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_ironing_direction": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Support ironing",
+  "group_cn": "支撑熨烫",
+  "row": "",
+  "row_cn": ""
+ },
+ "raft_first_layer_density": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "raft_first_layer_expansion": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "tree_support_wall_count": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_top_z_distance": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_bottom_z_distance": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_base_pattern": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_base_pattern_spacing": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_angle": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_interface_top_layers": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_interface_bottom_layers": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_interface_pattern": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_interface_spacing": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_bottom_interface_spacing": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_expansion": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_object_xy_distance": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "top_z_overrides_xy_distance": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_object_first_layer_gap": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "bridge_no_support": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "max_bridge_length": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "independent_support_layer_height": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "tree_support_branch_distance": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Tree Support",
+  "group_cn": "树状支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "tree_support_branch_diameter": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Tree Support",
+  "group_cn": "树状支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "tree_support_branch_angle": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Tree Support",
+  "group_cn": "树状支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "tree_support_branch_diameter_angle": {
+  "page": "Support",
+  "page_cn": "支撑",
+  "group": "Tree Support",
+  "group_cn": "树状支撑",
+  "row": "",
+  "row_cn": ""
+ },
+ "skirt_loops": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Bed adhension",
+  "group_cn": "热床粘接",
+  "row": "",
+  "row_cn": ""
+ },
+ "skirt_height": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Bed adhension",
+  "group_cn": "热床粘接",
+  "row": "",
+  "row_cn": ""
+ },
+ "skirt_distance": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Bed adhension",
+  "group_cn": "热床粘接",
+  "row": "",
+  "row_cn": ""
+ },
+ "brim_type": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Bed adhension",
+  "group_cn": "热床粘接",
+  "row": "",
+  "row_cn": ""
+ },
+ "brim_width": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Bed adhension",
+  "group_cn": "热床粘接",
+  "row": "",
+  "row_cn": ""
+ },
+ "brim_object_gap": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Bed adhension",
+  "group_cn": "热床粘接",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_prime_tower": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_skip_points": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_enable_framework": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_width": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_max_speed": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_brim_width": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_infill_gap": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_rib_wall": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_extra_rib_length": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_rib_width": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "prime_tower_fillet_wall": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_tower_interface_features": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "wipe_tower_no_sparse_layers": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Prime tower",
+  "group_cn": "擦料塔",
+  "row": "",
+  "row_cn": ""
+ },
+ "flush_into_infill": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Flush options",
+  "group_cn": "换料冲刷选项",
+  "row": "",
+  "row_cn": ""
+ },
+ "flush_into_objects": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Flush options",
+  "group_cn": "换料冲刷选项",
+  "row": "",
+  "row_cn": ""
+ },
+ "flush_into_support": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Flush options",
+  "group_cn": "换料冲刷选项",
+  "row": "",
+  "row_cn": ""
+ },
+ "slicing_mode": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "print_sequence": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "spiral_mode": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "spiral_mode_smooth": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "spiral_mode_max_xy_smoothing": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "timelapse_type": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "fuzzy_skin": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "fuzzy_skin_mode": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "fuzzy_skin_noise_type": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "fuzzy_skin_point_distance": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "fuzzy_skin_thickness": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "fuzzy_skin_scale": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "fuzzy_skin_octaves": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "fuzzy_skin_persistence": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "fuzzy_skin_first_layer": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Special mode",
+  "group_cn": "特殊模式",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_wrapping_detection": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_order_independent_overlap_carving": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "interlocking_beam": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "mmu_segmented_region_interlocking_depth": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "interlocking_beam_width": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "interlocking_orientation": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "interlocking_beam_layer_count": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "interlocking_depth": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "interlocking_boundary_avoidance": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "sparse_infill_filament": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "solid_infill_filament": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "wall_filament": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "reduce_infill_retraction_mode": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "G-code output",
+  "group_cn": "G-code 输出",
+  "row": "",
+  "row_cn": ""
+ },
+ "gcode_add_line_number": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "G-code output",
+  "group_cn": "G-code 输出",
+  "row": "",
+  "row_cn": ""
+ },
+ "exclude_object": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "G-code output",
+  "group_cn": "G-code 输出",
+  "row": "",
+  "row_cn": ""
+ },
+ "filename_format": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "G-code output",
+  "group_cn": "G-code 输出",
+  "row": "",
+  "row_cn": ""
+ },
+ "post_process": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Post-processing scripts",
+  "group_cn": "后处理脚本",
+  "row": "",
+  "row_cn": ""
+ },
+ "process_notes": {
+  "page": "Others",
+  "page_cn": "其他",
+  "group": "Notes",
+  "group_cn": "注释",
+  "row": "",
+  "row_cn": ""
+ },
+ "curr_bed_type": {
+  "page": "Plate Settings",
+  "page_cn": "盘参数设置",
+  "group": "",
+  "group_cn": "Project-Id-Version: Slic3rPE\nReport-Msgid-Bugs-To: \nPO-Revision-Date: 2025-02-20 20:32+0800\nLast-Translator: Jiang Yue <maze1024@gmail.com>\nLanguage-Team: \nLanguage: zh_CN\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Poedit 3.5",
+  "row": "",
+  "row_cn": ""
+ },
+ "first_layer_sequence_choice": {
+  "page": "Plate Settings",
+  "page_cn": "盘参数设置",
+  "group": "",
+  "group_cn": "Project-Id-Version: Slic3rPE\nReport-Msgid-Bugs-To: \nPO-Revision-Date: 2025-02-20 20:32+0800\nLast-Translator: Jiang Yue <maze1024@gmail.com>\nLanguage-Team: \nLanguage: zh_CN\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Poedit 3.5",
+  "row": "",
+  "row_cn": ""
+ },
+ "other_layers_sequence_choice": {
+  "page": "Plate Settings",
+  "page_cn": "盘参数设置",
+  "group": "",
+  "group_cn": "Project-Id-Version: Slic3rPE\nReport-Msgid-Bugs-To: \nPO-Revision-Date: 2025-02-20 20:32+0800\nLast-Translator: Jiang Yue <maze1024@gmail.com>\nLanguage-Team: \nLanguage: zh_CN\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Poedit 3.5",
+  "row": "",
+  "row_cn": ""
+ },
+ "override_process_overhang_speed": {
+  "page": "Setting Overrides",
+  "page_cn": "参数覆盖",
+  "group": "Speed",
+  "group_cn": "速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_enable_overhang_speed": {
+  "page": "Setting Overrides",
+  "page_cn": "参数覆盖",
+  "group": "Speed",
+  "group_cn": "速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_overhang_1_4_speed": {
+  "page": "Setting Overrides",
+  "page_cn": "参数覆盖",
+  "group": "Speed",
+  "group_cn": "速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_overhang_2_4_speed": {
+  "page": "Setting Overrides",
+  "page_cn": "参数覆盖",
+  "group": "Speed",
+  "group_cn": "速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_overhang_3_4_speed": {
+  "page": "Setting Overrides",
+  "page_cn": "参数覆盖",
+  "group": "Speed",
+  "group_cn": "速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_overhang_4_4_speed": {
+  "page": "Setting Overrides",
+  "page_cn": "参数覆盖",
+  "group": "Speed",
+  "group_cn": "速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_overhang_totally_speed": {
+  "page": "Setting Overrides",
+  "page_cn": "参数覆盖",
+  "group": "Speed",
+  "group_cn": "速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_bridge_speed": {
+  "page": "Setting Overrides",
+  "page_cn": "参数覆盖",
+  "group": "Speed",
+  "group_cn": "速度",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_type": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_vendor": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_soluble": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_is_support": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "impact_strength_z": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "default_filament_colour": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_diameter": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_adhesiveness_category": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_metal_stickiness": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_flow_ratio": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_pressure_advance": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "pressure_advance": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_density": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_shrink": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_velocity_adaptation_factor": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_cost": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "temperature_vitrification": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_printable": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_cooling_before_tower": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_tower_interface_pre_extrusion_dist": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_tower_interface_pre_extrusion_length": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_tower_ironing_area": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_tower_interface_purge_volume": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_tower_interface_print_temp": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_prime_volume": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Filament prime volume",
+  "row_cn": "材料清理量"
+ },
+ "filament_prime_volume_nc": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Filament prime volume",
+  "row_cn": "材料清理量"
+ },
+ "filament_change_length": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Filament ramming length",
+  "row_cn": "材料预冲刷长度"
+ },
+ "filament_change_length_nc": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Filament ramming length",
+  "row_cn": "材料预冲刷长度"
+ },
+ "filament_ramming_travel_time": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Travel time after ramming",
+  "row_cn": "预冲刷后的空驶时间"
+ },
+ "filament_ramming_travel_time_nc": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Travel time after ramming",
+  "row_cn": "预冲刷后的空驶时间"
+ },
+ "filament_pre_cooling_temperature": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Precooling target temperature",
+  "row_cn": "预降温目标温度"
+ },
+ "filament_pre_cooling_temperature_nc": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Precooling target temperature",
+  "row_cn": "预降温目标温度"
+ },
+ "nozzle_temperature_range_low": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Recommended nozzle temperature",
+  "row_cn": "建议喷嘴温度"
+ },
+ "nozzle_temperature_range_high": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "Recommended nozzle temperature",
+  "row_cn": "建议喷嘴温度"
+ },
+ "chamber_temperatures": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "",
+  "row_cn": ""
+ },
+ "supertack_plate_temp_initial_layer": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Bambu Cool Plate SuperTack",
+  "row_cn": "增稳低温打印板"
+ },
+ "supertack_plate_temp": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Bambu Cool Plate SuperTack",
+  "row_cn": "增稳低温打印板"
+ },
+ "cool_plate_temp_initial_layer": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Cool Plate",
+  "row_cn": "低温打印板"
+ },
+ "cool_plate_temp": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Cool Plate",
+  "row_cn": "低温打印板"
+ },
+ "eng_plate_temp_initial_layer": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Engineering Plate",
+  "row_cn": "工程材料打印板"
+ },
+ "eng_plate_temp": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Engineering Plate",
+  "row_cn": "工程材料打印板"
+ },
+ "hot_plate_temp_initial_layer": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Smooth PEI Plate / High Temp Plate",
+  "row_cn": "光面PEI打印板 / 高温打印板"
+ },
+ "hot_plate_temp": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Smooth PEI Plate / High Temp Plate",
+  "row_cn": "光面PEI打印板 / 高温打印板"
+ },
+ "textured_plate_temp_initial_layer": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Textured PEI Plate",
+  "row_cn": "纹理PEI打印板"
+ },
+ "textured_plate_temp": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Textured PEI Plate",
+  "row_cn": "纹理PEI打印板"
+ },
+ "nozzle_temperature_initial_layer": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Nozzle",
+  "row_cn": "喷嘴"
+ },
+ "nozzle_temperature": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Print temperature",
+  "group_cn": "打印温度",
+  "row": "Nozzle",
+  "row_cn": "喷嘴"
+ },
+ "filament_adaptive_volumetric_speed": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Volumetric speed limitation",
+  "group_cn": "体积速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_max_volumetric_speed": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Volumetric speed limitation",
+  "group_cn": "体积速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_ramming_volumetric_speed": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Volumetric speed limitation",
+  "group_cn": "体积速度限制",
+  "row": "Ramming volumetric speed",
+  "row_cn": "预冲刷体积速度"
+ },
+ "filament_ramming_volumetric_speed_nc": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Volumetric speed limitation",
+  "group_cn": "体积速度限制",
+  "row": "Ramming volumetric speed",
+  "row_cn": "预冲刷体积速度"
+ },
+ "filament_scarf_seam_type": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Filament scarf seam settings",
+  "group_cn": "材料斜拼接缝参数",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_scarf_height": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Filament scarf seam settings",
+  "group_cn": "材料斜拼接缝参数",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_scarf_gap": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Filament scarf seam settings",
+  "group_cn": "材料斜拼接缝参数",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_scarf_length": {
+  "page": "Filament",
+  "page_cn": "耗材丝",
+  "group": "Filament scarf seam settings",
+  "group_cn": "材料斜拼接缝参数",
+  "row": "",
+  "row_cn": ""
+ },
+ "close_fan_the_first_x_layers": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "Initial layer fan",
+  "row_cn": "起始层风扇"
+ },
+ "first_x_layer_part_fan_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "Initial layer fan",
+  "row_cn": "起始层风扇"
+ },
+ "full_fan_speed_layer": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "Linear ramp up to",
+  "row_cn": "线性提速至"
+ },
+ "fan_min_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "Min fan speed threshold",
+  "row_cn": "最小风扇速度阈值"
+ },
+ "fan_cooling_layer_time": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "Min fan speed threshold",
+  "row_cn": "最小风扇速度阈值"
+ },
+ "fan_max_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "Max fan speed threshold",
+  "row_cn": "最大风扇速度阈值"
+ },
+ "slow_down_layer_time": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "Max fan speed threshold",
+  "row_cn": "最大风扇速度阈值"
+ },
+ "reduce_fan_stop_start_freq": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "slow_down_for_layer_cooling": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "no_slow_down_for_cooling_on_outwalls": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "cooling_slowdown_logic": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "cooling_perimeter_transition_distance": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "slow_down_min_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "enable_overhang_bridge_fan": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "overhang_fan_threshold": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "overhang_threshold_participating_cooling": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "overhang_fan_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "pre_start_fan_time": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "ironing_fan_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Part cooling fan",
+  "group_cn": "部件冷却风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "close_additional_fan_first_x_layers": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Auxiliary part cooling fan",
+  "group_cn": "辅助部件冷却风扇",
+  "row": "Initial layer fan",
+  "row_cn": "起始层风扇"
+ },
+ "first_x_layer_fan_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Auxiliary part cooling fan",
+  "group_cn": "辅助部件冷却风扇",
+  "row": "Initial layer fan",
+  "row_cn": "起始层风扇"
+ },
+ "additional_fan_full_speed_layer": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Auxiliary part cooling fan",
+  "group_cn": "辅助部件冷却风扇",
+  "row": "Linear ramp up",
+  "row_cn": "线性提速"
+ },
+ "additional_cooling_fan_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Auxiliary part cooling fan",
+  "group_cn": "辅助部件冷却风扇",
+  "row": "Linear ramp up",
+  "row_cn": "线性提速"
+ },
+ "activate_air_filtration": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Exhaust fan",
+  "group_cn": "排风扇",
+  "row": "",
+  "row_cn": ""
+ },
+ "during_print_exhaust_fan_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Exhaust fan",
+  "group_cn": "排风扇",
+  "row": "During print",
+  "row_cn": "打印过程中"
+ },
+ "complete_print_exhaust_fan_speed": {
+  "page": "Cooling",
+  "page_cn": "冷却模式",
+  "group": "Exhaust fan",
+  "group_cn": "排风扇",
+  "row": "Complete print",
+  "row_cn": "完成打印"
+ },
+ "filament_start_gcode": {
+  "page": "Advanced",
+  "page_cn": "高级",
+  "group": "Filament start G-code",
+  "group_cn": "耗材丝起始G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_end_gcode": {
+  "page": "Advanced",
+  "page_cn": "高级",
+  "group": "Filament end G-code",
+  "group_cn": "耗材丝结束G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_notes": {
+  "page": "Notes",
+  "page_cn": "注释",
+  "group": "Notes",
+  "group_cn": "注释",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_flush_temp": {
+  "page": "Multi Filament",
+  "page_cn": "多材料",
+  "group": "Multi Filament",
+  "group_cn": "多材料",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_flush_temp_fast": {
+  "page": "Multi Filament",
+  "page_cn": "多材料",
+  "group": "Multi Filament",
+  "group_cn": "多材料",
+  "row": "",
+  "row_cn": ""
+ },
+ "filament_flush_volumetric_speed": {
+  "page": "Multi Filament",
+  "page_cn": "多材料",
+  "group": "Multi Filament",
+  "group_cn": "多材料",
+  "row": "",
+  "row_cn": ""
+ },
+ "long_retractions_when_ec": {
+  "page": "Multi Filament",
+  "page_cn": "多材料",
+  "group": "Multi Filament",
+  "group_cn": "多材料",
+  "row": "",
+  "row_cn": ""
+ },
+ "retraction_distances_when_ec": {
+  "page": "Multi Filament",
+  "page_cn": "多材料",
+  "group": "Multi Filament",
+  "group_cn": "多材料",
+  "row": "",
+  "row_cn": ""
+ },
+ "bed_exclude_area": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Printable space",
+  "group_cn": "可打印区域",
+  "row": "",
+  "row_cn": ""
+ },
+ "printable_height": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Printable space",
+  "group_cn": "可打印区域",
+  "row": "",
+  "row_cn": ""
+ },
+ "best_object_pos": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Printable space",
+  "group_cn": "可打印区域",
+  "row": "",
+  "row_cn": ""
+ },
+ "printer_structure": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "gcode_flavor": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "thumbnail_size": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "scan_first_layer": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "print_in_clockwise": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "use_relative_e_distances": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "use_firmware_retraction": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "bed_temperature_formula": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_load_filament_time": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_unload_filament_time": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_switch_extruder_time": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_hotend_change_time": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Advanced",
+  "group_cn": "高级",
+  "row": "",
+  "row_cn": ""
+ },
+ "extruder_clearance_max_radius": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Extruder Clearance",
+  "group_cn": "挤出机避让空间",
+  "row": "",
+  "row_cn": ""
+ },
+ "extruder_clearance_dist_to_rod": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Extruder Clearance",
+  "group_cn": "挤出机避让空间",
+  "row": "",
+  "row_cn": ""
+ },
+ "extruder_clearance_height_to_rod": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Extruder Clearance",
+  "group_cn": "挤出机避让空间",
+  "row": "",
+  "row_cn": ""
+ },
+ "extruder_clearance_height_to_lid": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Extruder Clearance",
+  "group_cn": "挤出机避让空间",
+  "row": "",
+  "row_cn": ""
+ },
+ "nozzle_type": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Accessory",
+  "group_cn": "配件",
+  "row": "",
+  "row_cn": ""
+ },
+ "auxiliary_fan": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Accessory",
+  "group_cn": "配件",
+  "row": "",
+  "row_cn": ""
+ },
+ "fan_direction": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Accessory",
+  "group_cn": "配件",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_chamber_temp_control": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Accessory",
+  "group_cn": "配件",
+  "row": "",
+  "row_cn": ""
+ },
+ "support_air_filtration": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Accessory",
+  "group_cn": "配件",
+  "row": "",
+  "row_cn": ""
+ },
+ "cooling_filter_enabled": {
+  "page": "Basic information",
+  "page_cn": "基础信息",
+  "group": "Accessory",
+  "group_cn": "配件",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_start_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Machine start G-code",
+  "group_cn": "打印机起始G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_end_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Machine end G-code",
+  "group_cn": "打印机结束G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "printing_by_object_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Printing by object G-code",
+  "group_cn": "逐件打印G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "before_layer_change_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Before layer change G-code",
+  "group_cn": "换层前G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "layer_change_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Layer change G-code",
+  "group_cn": "换层G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "time_lapse_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Time lapse G-code",
+  "group_cn": "延时摄影G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "wrapping_detection_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Clumping Detection G-code",
+  "group_cn": "触碰裹头检测G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "change_filament_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Change filament G-code",
+  "group_cn": "耗材丝更换G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_pause_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Pause G-code",
+  "group_cn": "暂停 G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "template_custom_gcode": {
+  "page": "Machine gcode",
+  "page_cn": "打印机G-code",
+  "group": "Template Custom G-code",
+  "group_cn": "模板自定义G-code",
+  "row": "",
+  "row_cn": ""
+ },
+ "printer_notes": {
+  "page": "Notes",
+  "page_cn": "注释",
+  "group": "Notes",
+  "group_cn": "注释",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_acceleration_x": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Acceleration limitation",
+  "group_cn": "加速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_acceleration_y": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Acceleration limitation",
+  "group_cn": "加速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_acceleration_z": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Acceleration limitation",
+  "group_cn": "加速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_acceleration_e": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Acceleration limitation",
+  "group_cn": "加速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_acceleration_extruding": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Acceleration limitation",
+  "group_cn": "加速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_acceleration_retracting": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Acceleration limitation",
+  "group_cn": "加速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_acceleration_travel": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Acceleration limitation",
+  "group_cn": "加速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_printed_mass": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Acceleration limitation",
+  "group_cn": "加速度限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_jerk_x": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Jerk limitation",
+  "group_cn": "抖动限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_jerk_y": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Jerk limitation",
+  "group_cn": "抖动限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_jerk_z": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Jerk limitation",
+  "group_cn": "抖动限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "machine_max_jerk_e": {
+  "page": "Motion ability",
+  "page_cn": "移动能力",
+  "group": "Jerk limitation",
+  "group_cn": "抖动限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "extruder_type": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "nozzle_diameter": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "nozzle_volume": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "extruder_printable_height": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "extruder_printable_area": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Basic information",
+  "group_cn": "基础信息",
+  "row": "",
+  "row_cn": ""
+ },
+ "min_layer_height": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Layer height limits",
+  "group_cn": "层高限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "max_layer_height": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Layer height limits",
+  "group_cn": "层高限制",
+  "row": "",
+  "row_cn": ""
+ },
+ "extruder_offset": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Position",
+  "group_cn": "位置",
+  "row": "",
+  "row_cn": ""
+ },
+ "retraction_length": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "z_hop": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "retract_lift_above": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "retract_lift_below": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "z_hop_types": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "retraction_speed": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "deretraction_speed": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "retract_restart_extra": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "retraction_minimum_travel": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "retract_when_changing_layer": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "wipe": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "wipe_distance": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "retract_before_wipe": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction",
+  "group_cn": "回抽",
+  "row": "",
+  "row_cn": ""
+ },
+ "retract_length_toolchange": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction when switching material",
+  "group_cn": "切换材料时的回抽量",
+  "row": "",
+  "row_cn": ""
+ },
+ "retract_restart_extra_toolchange": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction when switching material",
+  "group_cn": "切换材料时的回抽量",
+  "row": "",
+  "row_cn": ""
+ },
+ "long_retractions_when_cut": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction when switching material",
+  "group_cn": "切换材料时的回抽量",
+  "row": "",
+  "row_cn": ""
+ },
+ "retraction_distances_when_cut": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction when switching material",
+  "group_cn": "切换材料时的回抽量",
+  "row": "",
+  "row_cn": ""
+ },
+ "default_ams_type": {
+  "page": "Extruder",
+  "page_cn": "挤出机",
+  "group": "Retraction when switching material",
+  "group_cn": "切换材料时的回抽量",
+  "row": "",
+  "row_cn": ""
+ }
+}

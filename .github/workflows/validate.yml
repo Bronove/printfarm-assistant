@@ -1,0 +1,51 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  windows-ui:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: app/ui_v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/ui_v2/package-lock.json
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Install backend dependencies
+        working-directory: .
+        run: python -m pip install -r app/ui_v2/requirements.txt
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: UI smoke test
+        run: npm run test:ui
+
+      - name: Backend smoke test
+        env:
+          PRINTFARM_PYTHON: python
+        run: npm run test:backend
+
+      - name: Python syntax check
+        working-directory: .
+        run: python -m compileall -q app/ui_v2 app/切片软件

@@ -1,0 +1,6 @@
+Pillow>=10.4,<11
+numpy>=1.26,<2
+trimesh>=5.0,<6
+gmsh==4.15.2
+pyinstaller>=6.21,<7
+pywebview>=5.4,<7

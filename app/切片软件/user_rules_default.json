@@ -1,0 +1,14 @@
+{
+ "samples": [],
+ "phrase_rules": [
+  {
+   "norm": "蜂窝",
+   "overrides": {
+    "infill": "45"
+   },
+   "hits": 2,
+   "enabled": false
+  }
+ ],
+ "defaults": {}
+}

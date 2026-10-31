@@ -1,0 +1,71 @@
+name: 软件问题
+description: 报告安装、切片、摆盘或界面问题
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请勿上传保密模型、完整 G-code、账号凭据、访问码或 API Key。
+        请先把日志中的用户名、文件路径和模型名脱敏。
+  - type: input
+    id: assistant-version
+    attributes:
+      label: 打印农场助手版本
+      placeholder: 例如 1.5.0-beta.1
+    validations:
+      required: true
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows 版本
+      placeholder: 例如 Windows 10 22H2 x64 / Windows 11 24H2 x64
+    validations:
+      required: true
+  - type: input
+    id: bambu-version
+    attributes:
+      label: Bambu Studio 版本
+      placeholder: 例如 2.3.0
+    validations:
+      required: true
+  - type: input
+    id: printer
+    attributes:
+      label: 打印机型号
+      placeholder: 例如 P1S / P2S / H2S
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 请按 1、2、3 的顺序描述
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 脱敏日志
+      description: 只保留与问题有关的部分，不要上传完整模型或 G-code
+      render: text
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私确认
+      options:
+        - label: 我已移除模型、账号、访问码、Token、API Key 和未脱敏路径
+          required: true

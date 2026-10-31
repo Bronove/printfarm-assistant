@@ -1,0 +1,5 @@
+Lumina Studio uses MiSans fonts provided by Xiaomi Inc.
+
+The MiSans font files in this directory are distributed under the MiSans Font
+Intellectual Property License Agreement. See LICENSE.pdf for the agreement.
+Official source: https://hyperos.mi.com/font/zh/download/
