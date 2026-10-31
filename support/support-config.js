@@ -1,16 +1,12 @@
 /*
- * Donation channels
- * ----------------
- * Fill only the values you own and have verified.
- * Empty methods are hidden automatically, so this file is safe to publish
- * while the page is still being configured.
- *
- * type: "link" opens a donation page.
- * type: "qr" opens a QR image inside the page.
+ * Public support-page configuration.
+ * Fill only links and QR files that you own and have verified.
  */
 window.SUPPORT_CONFIG = {
   projectName: "打印农场助手",
   projectNote: "非 Bambu Lab 官方项目",
+  githubRepo: "Bronove/printfarm-assistant",
+  communityDataUrl: "community-data.json",
   methods: [
     {
       id: "afdian",

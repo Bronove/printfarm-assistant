@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="支持打印农场助手继续开发。软件保持免费，打赏完全自愿。">
+  <meta name="description" content="支持打印农场助手继续开发，查看项目贡献者与打赏鸣谢名单。">
   <meta name="theme-color" content="#f6f7f4">
-  <title>支持打印农场助手</title>
+  <title>支持与贡献 · 打印农场助手</title>
   <link rel="icon" href="../assets/icon.png" type="image/png">
   <link rel="stylesheet" href="support.css">
   <script defer src="support-config.js"></script>
@@ -19,42 +19,133 @@
       <img src="../assets/icon.png" width="36" height="36" alt="">
       <span>打印农场助手</span>
     </a>
-    <a class="header-link" href="#support-methods">打赏方式</a>
+    <nav class="header-nav" aria-label="页面导航">
+      <a href="#support-methods">打赏</a>
+      <a href="#contributors">贡献榜</a>
+      <a href="#contribution-rules">上榜规则</a>
+    </nav>
   </header>
 
   <main id="main">
     <section class="intro" aria-labelledby="page-title">
-      <h1 id="page-title">支持打印农场助手</h1>
-      <p>
-        软件免费，功能不设付费墙。如果它帮你少走了一些弯路，
-        可以自愿打赏，支持后续开发、切片器适配和真机测试。
+      <span class="eyebrow">支持与贡献</span>
+      <h1 id="page-title">让好用的工具<br><span>继续变好。</span></h1>
+      <p class="intro-copy">
+        打印农场助手保持免费。打赏支持开发、适配和真机测试；
+        贡献代码、报告问题、验证切片和编写教程，也会被公开记录。
       </p>
+      <div class="intro-actions">
+        <a class="primary-action" href="#support-methods">选择打赏方式</a>
+        <a class="secondary-action" href="#contributors">查看贡献榜</a>
+      </div>
+      <dl class="intro-stats">
+        <div>
+          <dt>软件价格</dt>
+          <dd>免费</dd>
+        </div>
+        <div>
+          <dt>打赏</dt>
+          <dd>完全自愿</dd>
+        </div>
+        <div>
+          <dt>榜单排序</dt>
+          <dd>不看金额</dd>
+        </div>
+      </dl>
     </section>
 
     <section class="method-section" id="support-methods" aria-labelledby="methods-title">
-      <h2 id="methods-title">选择打赏方式</h2>
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">支持开发</span>
+          <h2 id="methods-title">选择打赏方式</h2>
+        </div>
+        <span class="section-index">01</span>
+      </div>
       <div class="methods-list" id="methods-list" aria-live="polite"></div>
-      <p class="method-note">打赏完全自愿，不解锁功能，也不提供付费售后服务。</p>
+      <p class="method-note">打赏不解锁功能，不提供付费售后，也不会影响贡献榜排序。</p>
       <noscript>
         <p class="method-note">打赏方式需要 JavaScript 显示；软件本身不需要联网才能使用。</p>
       </noscript>
     </section>
 
-    <section class="plain-section" aria-labelledby="use-title">
-      <h2 id="use-title">支持会用在</h2>
-      <ul>
-        <li>开发和维护切片工作台。</li>
-        <li>适配新版 Bambu Studio 和后续切片器。</li>
-        <li>购买耗材，对最省空间和最少支撑做真机验证。</li>
-      </ul>
+    <section class="contributors-section" id="contributors" aria-labelledby="contributors-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">公开记录</span>
+          <h2 id="contributors-title">项目贡献榜</h2>
+        </div>
+        <span class="section-index">02</span>
+      </div>
+      <p class="section-lead">
+        代码贡献来自 GitHub 公开提交记录；问题复现、测试、翻译、设计和文档贡献列入特别感谢。
+      </p>
+      <div class="contributors-status" id="contributors-status" role="status">
+        正在读取贡献记录…
+      </div>
+      <ol class="contributors-list" id="contributors-list"></ol>
+
+      <div class="special-thanks" id="special-thanks" hidden>
+        <div class="subsection-heading">
+          <h3>特别感谢</h3>
+          <span>测试、反馈、文档与设计</span>
+        </div>
+        <div class="thanks-grid" id="thanks-grid"></div>
+      </div>
     </section>
 
-    <section class="plain-section" aria-labelledby="promise-title">
-      <h2 id="promise-title">我的承诺</h2>
+    <section class="supporters-section" id="supporters" aria-labelledby="supporters-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">自愿支持</span>
+          <h2 id="supporters-title">打赏鸣谢墙</h2>
+        </div>
+        <span class="section-index">03</span>
+      </div>
+      <p class="section-lead">只展示明确同意公开的支持者；默认不公开金额，匿名支持同样欢迎。</p>
+      <div class="supporters-wall" id="supporters-wall"></div>
+    </section>
+
+    <section class="rules-section" id="contribution-rules" aria-labelledby="rules-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">如何参与</span>
+          <h2 id="rules-title">怎样登上贡献榜</h2>
+        </div>
+        <span class="section-index">04</span>
+      </div>
+      <div class="rules-grid">
+        <article>
+          <span>代码</span>
+          <h3>提交被合并</h3>
+          <p>修复问题、增加兼容性、改善性能或补充自动化测试。</p>
+        </article>
+        <article>
+          <span>验证</span>
+          <h3>提供可复现结果</h3>
+          <p>带上模型、切片参数、日志和实际输出，帮助问题得到定位。</p>
+        </article>
+        <article>
+          <span>共建</span>
+          <h3>完善文档与设计</h3>
+          <p>教程、翻译、界面建议、参数纠错和真实打印案例都算贡献。</p>
+        </article>
+      </div>
+      <div class="rules-note">
+        <strong>规则</strong>
+        <p>代码榜只按 GitHub 提交数排序，不按打赏金额排序。特别感谢由维护者核对后加入，可匿名或要求移除。</p>
+      </div>
+    </section>
+
+    <section class="promise-section" aria-labelledby="promise-title">
+      <div>
+        <span class="section-kicker">边界与承诺</span>
+        <h2 id="promise-title">每一份支持都公开透明</h2>
+      </div>
       <ul>
-        <li>不把已经免费的功能突然改成付费功能。</li>
-        <li>不为了催打赏限制导出、降低免费版体验。</li>
-        <li>不会用虚构的赞助商、筹款进度或用户数据包装项目。</li>
+        <li>已经免费的功能不会突然改成付费功能。</li>
+        <li>不会用虚构赞助商、筹款进度或用户数据包装项目。</li>
+        <li>打赏名单和贡献榜不出售排名，也不影响软件功能。</li>
       </ul>
     </section>
   </main>
