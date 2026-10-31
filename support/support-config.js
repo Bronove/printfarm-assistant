@@ -11,33 +11,27 @@ window.SUPPORT_CONFIG = {
   plans: [
     {
       name: "一桶方便面",
-      price: "5",
+      price: "6.6",
       note: "随手支持",
       features: ["开发进展", "可选鸣谢墙", "不锁定功能"]
     },
     {
       name: "一杯咖啡",
-      price: "9.9",
+      price: "19.9",
       note: "持续关注",
       features: ["版本提醒", "公开问卷", "可选鸣谢墙"]
     },
     {
       name: "内测同行",
-      price: "29.9",
+      price: "49",
       note: "参与测试",
       features: ["研发测试包", "测试清单", "反馈优先复核"]
     },
     {
       name: "深度共建",
-      price: "69",
+      price: "99",
       note: "参与方向",
-      features: ["功能投票", "特别感谢", "月度进展"]
-    },
-    {
-      name: "农场伙伴",
-      price: "199",
-      note: "重度使用",
-      features: ["月度验证场景", "优先复核", "名称展示"]
+      features: ["功能投票", "月度验证场景", "特别感谢"]
     }
   ],
   methods: [
