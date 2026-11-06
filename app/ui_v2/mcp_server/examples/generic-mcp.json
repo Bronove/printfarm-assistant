@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "tuozhu-assistant": {
+      "command": "C:\\Users\\YOUR_NAME\\AppData\\Local\\Programs\\PrintFarmAssistant\\tuozhu-mcp.exe",
+      "args": ["--stdio"],
+      "env": {
+        "TUOZHU_MCP_ALLOWED_ROOTS": "C:\\Users\\YOUR_NAME\\Desktop;D:\\Models"
+      }
+    }
+  }
+}

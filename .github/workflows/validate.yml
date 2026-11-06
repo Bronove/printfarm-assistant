@@ -41,6 +41,11 @@ jobs:
       - name: UI smoke test
         run: npm run test:ui
 
+      - name: Protected core smoke test
+        env:
+          PRINTFARM_PYTHON: python
+        run: npm run test:core
+
       - name: Backend smoke test
         env:
           PRINTFARM_PYTHON: python

@@ -30,3 +30,10 @@ public internet.
 Release assets are published through this GitHub repository. Verify the
 published SHA-256 checksum before running an installer. Builds are currently
 unsigned; Windows may therefore show an unknown-publisher warning.
+
+## Protected core
+
+The installed application verifies `protected_core.exe` against
+`protected_core.sha256` before using multicolor planning. Do not replace or
+re-pack that file separately from an official installer. A modified or missing
+component is rejected rather than executed.

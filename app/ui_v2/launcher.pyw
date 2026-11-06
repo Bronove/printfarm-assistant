@@ -17,6 +17,22 @@ BUNDLE = getattr(sys, "_MEIPASS", ROOT)
 if BUNDLE not in sys.path:
     sys.path.insert(0, BUNDLE)
 
+
+def _read_version():
+    for directory in (ROOT, BUNDLE):
+        try:
+            with open(os.path.join(directory, "version.txt"),
+                      encoding="utf-8-sig") as handle:
+                value = handle.read().strip()
+            if value:
+                return value
+        except OSError:
+            pass
+    return "1.6.0-beta.1"
+
+
+VERSION = _read_version()
+
 STARTUP_LOG = os.path.join(tempfile.gettempdir(), "tuozhu_v2_startup.log")
 try:
     _faulthandler_stream = open(STARTUP_LOG, "a", encoding="utf-8")
@@ -77,7 +93,7 @@ def _activate_existing_instance():
     if ctypes.get_last_error() != 183:
         return False
     user32 = ctypes.WinDLL("user32", use_last_error=True)
-    window = user32.FindWindowW(None, "打印农场助手 1.5.0-beta.1")
+    window = user32.FindWindowW(None, "打印农场助手 " + VERSION)
     if window:
         user32.ShowWindow(window, 9)
         user32.SetForegroundWindow(window)
@@ -120,7 +136,7 @@ def main():
         _startup("webview imported")
         icon = os.path.join(BUNDLE, "icon.ico")
         webview.create_window(
-            "打印农场助手 1.5.0-beta.1",
+            "打印农场助手 " + VERSION,
             "http://127.0.0.1:4180/",
             width=1240,
             height=820,

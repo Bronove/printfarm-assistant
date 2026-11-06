@@ -13,7 +13,7 @@ body:
     id: assistant-version
     attributes:
       label: 打印农场助手版本
-      placeholder: 例如 1.5.0-beta.1
+      placeholder: 例如 1.6.0-beta.1
     validations:
       required: true
   - type: input

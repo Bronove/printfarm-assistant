@@ -14,10 +14,11 @@ The project uses an open-core distribution model:
 
 - The public slicing workspace, batch workflow, local bridge, and general user
   interface are open source.
-- The separately distributed optimizer and Bambu desktop automation bridge are
-  proprietary components and are not covered by the MIT License.
-- Multi-color plate planning, figurine mode, and the floating assistant are not
-  included in the public 1.5 beta release.
+- The separately compiled multi-color planner/validator, optimizer and Bambu
+  desktop automation bridge are proprietary components and are not covered by
+  the MIT License.
+- The public UI exposes slicing workbench, multicolor and batch workspaces.
+  Figurine mode and the floating assistant remain non-public.
 
 The free official installer may be used for personal work and commercial print
 farming, including selling printed objects. Redistribution, OEM bundling,

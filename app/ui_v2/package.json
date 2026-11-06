@@ -1,18 +1,19 @@
 {
   "name": "printfarm-assistant",
   "private": true,
-  "version": "1.5.0-beta.1",
+  "version": "1.6.0-beta.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "test:ui": "node tests/ui-smoke.mjs",
+    "test:ui": "node tests/ui-smoke.mjs --public",
     "test:backend": "node tools/run-python.mjs tests/backend-smoke.py",
+    "test:core": "node tools/run-python.mjs tests/protected-core-smoke.py",
     "test:e2e:packaged": "node tests/packaged-e2e.mjs",
     "test:installer": "powershell -NoProfile -ExecutionPolicy Bypass -File tests/installer-e2e.ps1",
     "test:installer:inno": "powershell -NoProfile -ExecutionPolicy Bypass -File tests/inno-installer-e2e.ps1",
-    "test:all": "npm run test:backend && npm run test:ui && npm run test:e2e:packaged && npm run test:installer:inno"
+    "test:all": "npm run test:core && npm run test:backend && npm run test:ui && npm run test:e2e:packaged && npm run test:installer:inno"
   },
   "dependencies": {
     "react": "^19.2.0",

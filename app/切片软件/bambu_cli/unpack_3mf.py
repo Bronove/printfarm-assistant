@@ -491,6 +491,33 @@ def count_parts_for_pack(path):
             if needs_build_item_split(path) else count_meshes(path))
 
 
+def count_printable_parts(path):
+    """按 Bambu 拆件后的普通 Part 数量计数。
+
+    modifier/negative/support-blocker 不是可打印实体，不计入农场合盘
+    的“超过 9 件”判断。没有 part 节点的普通单对象 3MF 回退到 build
+    item 数量。
+    """
+    try:
+        with zipfile.ZipFile(path) as archive:
+            if 'Metadata/model_settings.config' not in archive.namelist():
+                return count_parts_for_pack(path)
+            root = ET.fromstring(
+                archive.read('Metadata/model_settings.config'))
+    except (OSError, ValueError, ET.ParseError, zipfile.BadZipFile):
+        return count_parts_for_pack(path)
+    count = 0
+    for obj in root:
+        if _local(obj.tag) != 'object':
+            continue
+        for part in obj:
+            if (_local(part.tag) == 'part'
+                    and str(part.get('subtype') or 'normal_part')
+                    == 'normal_part'):
+                count += 1
+    return count or count_parts_for_pack(path)
+
+
 def project_overrides(path, figurine=False):
     """读取 3MF 内嵌项目参数，生成可追加到的 process override。
 
@@ -514,16 +541,51 @@ def project_overrides(path, figurine=False):
         return v
 
     out = []
-    density = first('sparse_infill_density')
-    pattern = first('sparse_infill_pattern')
-    layer = first('layer_height')
-    if density not in (None, ''):
-        d = str(density).strip()
-        out.append('sparse_infill_density=' + (d if d.endswith('%') else d + '%'))
-    if pattern not in (None, ''):
-        out.append('sparse_infill_pattern=' + str(pattern).strip())
-    if layer not in (None, ''):
-        out.append('layer_height=' + str(layer).strip())
+    keys = (
+        'layer_height',
+        'initial_layer_print_height',
+        'line_width',
+        'outer_wall_line_width',
+        'inner_wall_line_width',
+        'top_surface_line_width',
+        'initial_layer_line_width',
+        'sparse_infill_density',
+        'sparse_infill_pattern',
+        'wall_loops',
+        'top_shell_layers',
+        'bottom_shell_layers',
+        'enable_support',
+        'support_type',
+        'support_style',
+        'support_threshold_angle',
+        'support_on_build_plate_only',
+        'seam_position',
+        'ironing_type',
+        'ironing_flow',
+        'ironing_speed',
+        'brim_type',
+        'brim_width',
+        'brim_object_gap',
+        'skirt_loops',
+        'raft_layers',
+        'print_sequence',
+        'outer_wall_speed',
+        'inner_wall_speed',
+        'sparse_infill_speed',
+        'internal_solid_infill_speed',
+        'top_surface_speed',
+        'initial_layer_speed',
+    )
+    for key in keys:
+        value = first(key)
+        if value in (None, ''):
+            continue
+        text = str(value).strip()
+        if not text:
+            continue
+        if key == 'sparse_infill_density' and not text.endswith('%'):
+            text += '%'
+        out.append(f'{key}={text}')
     if figurine:
         out += [
             'enable_support=1',

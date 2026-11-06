@@ -1,6 +1,25 @@
-export type WorkspaceMode = "workbench" | "batch";
+export type WorkspaceMode = "workbench" | "multicolor" | "figurine" | "batch";
 
 export type JobState = "ready" | "grouped" | "printing" | "done" | "error";
+
+export interface FileParameterSummary {
+  hasEmbeddedSettings: boolean;
+  layerHeight?: string;
+  infill?: string;
+  pattern?: string;
+  supportEnabled?: boolean;
+  supportType?: string;
+  supportPlateOnly?: boolean;
+  material?: string;
+}
+
+export type ParameterSourceMode = "file" | "habit" | "custom";
+export type OverridableParameter = "layerHeight" | "infill" | "pattern" | "support";
+
+export interface ImportParameterPolicy {
+  mode: ParameterSourceMode;
+  overrides: Record<OverridableParameter, boolean>;
+}
 
 export interface ModelJob {
   id: string;
@@ -14,6 +33,10 @@ export interface ModelJob {
   outputDir?: string;
   progress?: number;
   error?: string;
+  quantity?: string;
+  parameterSource?: "file" | "current";
+  mergeParts?: number;
+  mergeIssue?: string;
 }
 
 export interface ModeDefinition {
@@ -29,6 +52,7 @@ export type SupportMode =
   | "normal_plate"
   | "normal_all";
 export type InfillPattern = "grid" | "lines" | "gyroid" | "honeycomb" | "cubic";
+export type MulticolorStrategy = "zero_flush" | "fewer_plates" | "time_budget";
 
 export interface SliceSettings {
   printer: string;
@@ -45,6 +69,18 @@ export interface SliceSettings {
   clone: string;
   outputMode: "gcode" | "3mf";
   maxColors: string;
+  multicolorStrategy: MulticolorStrategy;
+  targetHours: string;
   hideSeam: boolean;
   topIroning: boolean;
+  batchOutputMode?: "separate" | "combined";
+  supportOverlap?: boolean;
+  batchItems?: BatchMergeItem[];
+  parameterPolicy?: ImportParameterPolicy;
+}
+
+export interface BatchMergeItem {
+  path: string;
+  quantity: number;
+  parameterSource: "file" | "current";
 }

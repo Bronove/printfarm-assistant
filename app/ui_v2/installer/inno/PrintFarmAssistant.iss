@@ -1,6 +1,12 @@
 #define MyAppName "打印农场助手"
 #ifndef MyAppVersion
-  #define MyAppVersion "1.5.0-beta.1"
+  #define MyAppVersion "1.6.0-beta.1"
+#endif
+#ifndef MyOutputTag
+  #define MyOutputTag "-本机研发"
+#endif
+#ifndef MyFileVersion
+  #define MyFileVersion "1.6.0.1"
 #endif
 #define MyAppPublisher "Bronove"
 #define MyAppExeName "PrintFarmAssistant.exe"
@@ -29,7 +35,7 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0.17763
 OutputDir={#OutputDir}
-OutputBaseFilename=PrintFarmAssistant-v{#MyAppVersion}-win64-setup
+OutputBaseFilename=PrintFarmAssistant{#MyOutputTag}-v{#MyAppVersion}-win64-setup
 SetupIconFile={#SourceDir}\_internal\icon.ico
 UninstallDisplayIcon={app}\_internal\icon.ico
 Compression=lzma2/max
@@ -40,25 +46,27 @@ UsePreviousTasks=yes
 CloseApplications=yes
 CloseApplicationsFilter=*.exe,*.dll
 RestartApplications=no
-VersionInfoVersion=1.5.0.1
+VersionInfoVersion={#MyFileVersion}
 VersionInfoCompany={#MyAppPublisher}
 VersionInfoDescription={#MyAppName} installer
 VersionInfoProductName={#MyAppName}
-VersionInfoProductVersion=1.5.0
+VersionInfoProductVersion={#MyFileVersion}
+VersionInfoTextVersion={#MyAppVersion}
 Uninstallable=yes
 
 [Languages]
 Name: "chinesesimp"; MessagesFile: "ChineseSimplified.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "创建桌面快捷方式"; GroupDescription: "快捷方式："; Flags: unchecked
+Name: "desktopicon"; Description: "创建桌面快捷方式（拓竹助手）"; GroupDescription: "快捷方式："
 
 [Files]
 Source: "{#SourceDir}\*"; DestDir: "{app}"; Excludes: "logs\*,config.json,pet.json,pet.json.e2e,pet.json.probe,usage.json,result.json,*.log"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon
+Name: "{autoprograms}\拓竹助手"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
+Name: "{autodesktop}\拓竹助手"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "启动 {#MyAppName}"; Flags: nowait postinstall skipifsilent
@@ -140,17 +148,20 @@ end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
+  if CurStep = ssInstall then
+  begin
+    try
+      RemovePreviousShortcuts();
+    except
+      Log('Could not remove a previous shortcut.');
+    end;
+  end;
   if CurStep = ssPostInstall then
   begin
     try
       RemovePreviousRegistration();
     except
       Log('Could not remove a previous uninstall registration.');
-    end;
-    try
-      RemovePreviousShortcuts();
-    except
-      Log('Could not remove a previous shortcut.');
     end;
   end;
 end;

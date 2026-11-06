@@ -1,7 +1,7 @@
 VSVersionInfo(
   ffi=FixedFileInfo(
-    filevers=(1, 5, 0, 1),
-    prodvers=(1, 5, 0, 1),
+    filevers=(1, 6, 0, 1),
+    prodvers=(1, 6, 0, 1),
     mask=0x3f,
     flags=0x0,
     OS=0x40004,
@@ -13,13 +13,13 @@ VSVersionInfo(
     StringFileInfo([
       StringTable('080404B0', [
         StringStruct('CompanyName', '打印农场 PrintFarm'),
-        StringStruct('FileDescription', '打印农场助手 - 基础切片与 Bambu 工作台'),
-        StringStruct('FileVersion', '1.5.0.1'),
+        StringStruct('FileDescription', '打印农场助手 - 切片、多色排盘与批量工作台'),
+        StringStruct('FileVersion', '1.6.0.1'),
         StringStruct('InternalName', 'PrintFarmAssistant'),
         StringStruct('LegalCopyright', '免费分享，请勿倒卖'),
         StringStruct('OriginalFilename', 'PrintFarmAssistant.exe'),
         StringStruct('ProductName', '打印农场助手'),
-        StringStruct('ProductVersion', '1.5.0-beta.1')
+        StringStruct('ProductVersion', '1.6.0-beta.1')
       ])
     ]),
     VarFileInfo([VarStruct('Translation', [2052, 1200])])

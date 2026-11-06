@@ -6,6 +6,7 @@ interface NumberFieldProps {
   max: number;
   step: number;
   highlighted?: boolean;
+  disabled?: boolean;
   onChange: (value: string) => void;
 }
 
@@ -17,6 +18,7 @@ export default function NumberField({
   max,
   step,
   highlighted = false,
+  disabled = false,
   onChange,
 }: NumberFieldProps) {
   return (
@@ -30,6 +32,7 @@ export default function NumberField({
           max={max}
           step={step}
           value={value}
+          disabled={disabled}
           onChange={(event) => onChange(event.target.value)}
         />
         <span>{suffix}</span>

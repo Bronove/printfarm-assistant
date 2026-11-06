@@ -1,7 +1,8 @@
 # 构建说明
 
-公开仓库只构建开源基础工作台。官方安装包中的闭源优化器和 Bambu 桌面
-自动化桥不包含在本仓库。
+公开仓库构建切片工作台、多色排盘入口和批量切片界面。多色规划/检修、
+最省空间、最少支撑和 Bambu 桌面自动化实现由独立编译组件提供，算法源码
+不包含在本仓库。
 
 ## 环境
 
@@ -34,14 +35,19 @@ npm run test:e2e:packaged
 几何体；STEP 深度测试仅在开发者本机存在私有测试文件时运行。
 
 `app/ui_v2/headless_core.py` 是发布时从经过审核的旧内核方法中提取的无界面
-代码，不包含多色排盘、手办或悬浮助手。维护者可以用主项目中的
+代码，不包含多色排盘算法、手办或悬浮助手。维护者可以用主项目中的
 `scripts/extract_headless_core.py` 和 `scripts/assemble_public_repo.ps1`
 重新生成，禁止直接把完整旧界面文件复制到公开仓库。
+
+`app/ui_v2/protected_core.exe` 通过 JSON 子进程协议执行多色规划与切片检修。
+主程序在启动多色任务前校验同目录的 `protected_core.sha256`；组件缺失、被篡改
+或协议版本不兼容时会拒绝执行。公开仓库只保存编译产物和校验清单，不保存
+`protected_core.py` 或其导入的私有算法源码。
 
 ## 构建安装器
 
 ```powershell
-.\build_inno_installer.ps1 -Version 1.5.0-beta.1
+.\build_inno_installer.ps1 -Version 1.6.0-beta.1 -Channel public
 npm run test:installer:inno
 ```
 
@@ -50,7 +56,8 @@ npm run test:installer:inno
 - 用户模型或切片结果；
 - `config.json`、`usage.json`、日志；
 - API Key、访问令牌或其他凭据；
-- Gmsh 动态库在主程序目录中的副本。
+- Gmsh 动态库在主程序目录中的副本；
+- 多色私有算法源码、`protected_core.py` 或可还原的核心 PYZ。
 
 ## STEP 转换器
 

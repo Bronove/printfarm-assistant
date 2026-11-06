@@ -28,6 +28,11 @@ PLATE_FILES = (
     'Metadata/pick_{n}.png',
 )
 
+PLATE_FILE_RE = re.compile(
+    r'^(Metadata/)(plate_|plate_no_light_|top_|pick_)(\d+)'
+    r'(\.(?:gcode|gcode\.md5|json|png))$'
+)
+
 
 def _uuid():
     return str(uuid.uuid4())
@@ -144,8 +149,6 @@ def merge_3mf(sources, out_path, plate_names=None):
                     model_head = re.search(
                         r'(<model\b.*?<resources>)', model_xml, re.S).group(1)
                 objs = _parse_objects(model_xml)
-                if not objs:
-                    raise ValueError('%s: 没有可合并的对象' % src)
 
                 ms_src = z.read('Metadata/model_settings.config').decode('utf-8')
                 si_src = z.read('Metadata/slice_info.config').decode('utf-8')
@@ -350,3 +353,49 @@ def merge_3mf(sources, out_path, plate_names=None):
         return out_path
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def split_plate_sources(source, out_dir):
+    """把一个多盘 G-code 3MF拆成多个单盘 3MF。
+
+    输出仍保留原始 3D model 和工程配置，只筛选指定盘号的 G-code、
+    缩略图和 plate JSON，并把文件序号改成 1。这样后续可以继续交给
+    ``merge_3mf`` 按新的 16 盘上限重新分组，而不复制任何 G-code。
+    """
+    os.makedirs(out_dir, exist_ok=True)
+    with zipfile.ZipFile(source) as archive:
+        names = archive.namelist()
+        plate_numbers = sorted({
+            int(match.group(1))
+            for name in names
+            if (match := re.match(
+                r'Metadata/plate_(\d+)\.gcode$', name))
+        })
+        if not plate_numbers:
+            raise ValueError('%s: 缺少盘 G-code' % source)
+        if len(plate_numbers) == 1:
+            return [(plate_numbers[0], source)]
+
+        stem = re.sub(
+            r'[^\w.-]+', '_',
+            os.path.splitext(os.path.basename(source))[0])[:48] or 'plate'
+        result = []
+        for plate_number in plate_numbers:
+            destination = os.path.join(
+                out_dir, '%s_plate_%03d.gcode.3mf'
+                % (stem, plate_number))
+            with zipfile.ZipFile(
+                    destination, 'w', zipfile.ZIP_DEFLATED) as output:
+                for name in names:
+                    match = PLATE_FILE_RE.match(name)
+                    if match:
+                        source_plate = int(match.group(3))
+                        if source_plate != plate_number:
+                            continue
+                        name = (
+                            match.group(1) + match.group(2)
+                            + '1' + match.group(4)
+                        )
+                    output.writestr(name, archive.read(name))
+            result.append((plate_number, destination))
+        return result

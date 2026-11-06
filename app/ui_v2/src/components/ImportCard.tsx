@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import Button from "./ui/Button";
-import { UploadIcon } from "./ui/icons";
+import { FolderIcon, UploadIcon } from "./ui/icons";
 import type { WorkspaceMode } from "../types";
 
 const COPY: Record<WorkspaceMode, {
@@ -24,16 +24,33 @@ const COPY: Record<WorkspaceMode, {
     hint: "同目录文件会按相同配方处理，有问题的文件会单独列出。",
     action: "选择文件夹",
   },
+  multicolor: {
+    title: "准备多色工程",
+    description: "选择一个或多个 Bambu 3MF，按颜色分类、满盘或按盘时长重新排布。",
+    strong: "把多色 3MF 拖到这里",
+    hint: "助手负责参考布局和 Bambu 支撑切片检修，最终仍保留可编辑工程。",
+    action: "选择 3MF",
+  },
+  figurine: {
+    title: "准备手办模型",
+    description: "先确认模型完整性，再保留稳定朝向并检查细支撑。",
+    strong: "拖入手办或摆件文件",
+    hint: "复杂手办会保留原姿态，不自动启用最省空间。",
+    action: "选择文件",
+  },
 };
 
 export default function ImportCard({
   mode,
+  busy = false,
   onFiles,
 }: {
   mode: WorkspaceMode;
+  busy?: boolean;
   onFiles: (files: File[]) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const folderInputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const copy = COPY[mode];
 
@@ -43,7 +60,11 @@ export default function ImportCard({
   };
 
   return (
-    <section className="panel import-panel" aria-labelledby="import-title">
+    <section
+      className="panel import-panel"
+      aria-labelledby="import-title"
+      aria-busy={busy || undefined}
+    >
       <div className="panel-heading">
         <div>
           <h2 id="import-title">{copy.title}</h2>
@@ -53,9 +74,10 @@ export default function ImportCard({
       </div>
 
       <div
-        className={`drop-well${dragging ? " is-dragging" : ""}`}
+        className={`drop-well${dragging ? " is-dragging" : ""}${busy ? " is-disabled" : ""}`}
         onDragEnter={(event) => {
           event.preventDefault();
+          if (busy) return;
           setDragging(true);
         }}
         onDragOver={(event) => event.preventDefault()}
@@ -67,6 +89,7 @@ export default function ImportCard({
         onDrop={(event) => {
           event.preventDefault();
           setDragging(false);
+          if (busy) return;
           acceptFiles(event.dataTransfer.files);
         }}
       >
@@ -77,26 +100,51 @@ export default function ImportCard({
           <strong>{copy.strong}</strong>
           <span>{copy.hint}</span>
         </div>
-        <Button
-          leadingIcon={<UploadIcon />}
-          onClick={() => inputRef.current?.click()}
-        >
-          {copy.action}
-        </Button>
+        <div className="drop-well__actions">
+          <Button
+            leadingIcon={<UploadIcon />}
+            disabled={busy}
+            onClick={() => inputRef.current?.click()}
+          >
+            {mode === "batch" ? "选择文件" : copy.action}
+          </Button>
+          {mode === "batch" ? (
+            <Button
+              leadingIcon={<FolderIcon />}
+              disabled={busy}
+              onClick={() => folderInputRef.current?.click()}
+            >
+              选择文件夹
+            </Button>
+          ) : null}
+        </div>
         <input
           ref={inputRef}
           className="visually-hidden"
           type="file"
+          disabled={busy}
           multiple
-          {...(mode === "batch"
-            ? ({ webkitdirectory: "", directory: "" } as Record<string, string>)
-            : {})}
           accept=".stl,.3mf,.step,.stp"
           onChange={(event) => {
             acceptFiles(event.target.files);
             event.currentTarget.value = "";
           }}
         />
+        {mode === "batch" ? (
+          <input
+            ref={folderInputRef}
+            className="visually-hidden"
+            type="file"
+            disabled={busy}
+            multiple
+            {...({ webkitdirectory: "", directory: "" } as Record<string, string>)}
+            accept=".stl,.3mf,.step,.stp"
+            onChange={(event) => {
+              acceptFiles(event.target.files);
+              event.currentTarget.value = "";
+            }}
+          />
+        ) : null}
       </div>
     </section>
   );

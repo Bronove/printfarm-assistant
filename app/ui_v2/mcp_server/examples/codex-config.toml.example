@@ -1,0 +1,6 @@
+[mcp_servers.tuozhu-assistant]
+command = 'C:\Users\YOUR_NAME\AppData\Local\Programs\PrintFarmAssistant\tuozhu-mcp.exe'
+args = ["--stdio"]
+
+[mcp_servers.tuozhu-assistant.env]
+TUOZHU_MCP_ALLOWED_ROOTS = 'C:\Users\YOUR_NAME\Desktop;D:\Models'

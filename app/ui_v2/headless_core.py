@@ -26,8 +26,8 @@ BUNDLE_DIR = getattr(sys, "_MEIPASS", APP_DIR)
 CLI_DIR = os.path.join(BUNDLE_DIR, "bambu_cli")
 DATA_DIR = os.environ.get("PRINTFARM_DATA_DIR") or APP_DIR
 PY_EXE = sys.executable
-VERSION = "1.5.0-beta.1"
-APP_NAME = "打印农场助手 1.5.0-beta.1"
+VERSION = "1.5.0-beta.2"
+APP_NAME = "打印农场助手 1.5.0-beta.2"
 
 
 FROZEN = bool(getattr(sys, 'frozen', False))
@@ -703,6 +703,9 @@ class SliceApp:
     def _overrides_str(self, ov):
         r = dict(RECIPE)
         r.update({k: v for k, v in ov.items() if k in r})
+        file_based = bool(
+            ov.get('_preserve_project') or self._preserve_3mf_project()
+        )
         support_type, plate_only = {
             'tree_plate': ('tree(auto)', 1),
             'tree_all': ('tree(auto)', 0),
@@ -710,16 +713,22 @@ class SliceApp:
             'normal_all': ('normal(auto)', 0),
             'none': (None, None),
         }[r['support']]
-        overrides = [
-            f'layer_height={r["layer_height"]}',
-            f'sparse_infill_density={r["infill"]}%',
-            f'sparse_infill_pattern={r["pattern"]}',
-        ]
-        if support_type:
-            overrides += ['enable_support=1', f'support_type={support_type}',
-                          f'support_on_build_plate_only={plate_only}']
-        else:
-            overrides += ['enable_support=0']
+        overrides = []
+        if not file_based or 'layer_height' in ov:
+            overrides.append(f'layer_height={r["layer_height"]}')
+        if not file_based or 'infill' in ov:
+            overrides.append(f'sparse_infill_density={r["infill"]}%')
+        if not file_based or 'pattern' in ov:
+            overrides.append(f'sparse_infill_pattern={r["pattern"]}')
+        if not file_based or 'support' in ov:
+            if support_type:
+                overrides += [
+                    'enable_support=1',
+                    f'support_type={support_type}',
+                    f'support_on_build_plate_only={plate_only}',
+                ]
+            else:
+                overrides += ['enable_support=0']
         for k in ('wall_loops', 'inner_wall_speed', 'outer_wall_speed',
                   'sparse_infill_speed', 'internal_solid_infill_speed',
                   'top_surface_speed', 'initial_layer_speed', 'ironing_type',
@@ -771,7 +780,7 @@ class SliceApp:
         if self._figurine_mode_on():
             cmd += ['--figurine-mode', '1']
         preserve_project = bool(
-            self._preserve_3mf_project()
+            (ov.get('_preserve_project') or self._preserve_3mf_project())
             and str(model).lower().endswith('.3mf')
         )
         if preserve_project:
@@ -859,6 +868,8 @@ class SliceApp:
         if (len(getattr(self, 'models', [])) != 1
                 or not str(self.models[0]).lower().endswith('.3mf')):
             return False
+        if self.overrides.get('_preserve_project'):
+            return True
         if self._filament_edit_locked():
             # 多色/多材料工程的配色和耗材绑定必须整项目沿用，不能因为
             # 其它参数变化退回拆 STL 的普通路径。
@@ -879,8 +890,6 @@ class SliceApp:
             key = str(raw).split('=', 1)[0].strip()
             if key in explicit:
                 return False
-        if self._toolbox_active_keys():
-            return False
         return True
 
     def _profiles_root(self):

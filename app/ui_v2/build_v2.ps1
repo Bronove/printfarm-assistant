@@ -1,7 +1,8 @@
-﻿param(
+param(
     [string]$Python = "",
     [switch]$NoFrontendBuild,
-    [switch]$SkipStepConverter
+    [switch]$SkipStepConverter,
+    [switch]$SkipMcp
 )
 
 $ErrorActionPreference = "Stop"
@@ -17,6 +18,9 @@ $converterScript = Join-Path $root "step_converter.py"
 $converterDist = Join-Path $root "dist_step_converter"
 $converterWork = Join-Path $root "build_step_converter"
 $converterExe = Join-Path $converterDist "step_converter.exe"
+$mcpSource = Join-Path $root "mcp_server"
+$mcpDist = Join-Path $root "dist_mcp"
+$mcpExe = Join-Path $mcpDist "tuozhu-mcp.exe"
 
 if (-not $Python) {
     $Python = $env:PRINTFARM_PYTHON
@@ -35,6 +39,9 @@ if (-not $Python -or -not (Test-Path -LiteralPath $Python)) {
 if (-not $NoFrontendBuild) {
     Push-Location $root
     try {
+        $env:VITE_APP_VERSION = (
+            Get-Content -LiteralPath (Join-Path $root "version.txt") -Raw
+        ).Trim()
         npm run build
         if ($LASTEXITCODE -ne 0) { throw "前端构建失败" }
     } finally {
@@ -111,6 +118,7 @@ $args = @(
     "--paths", $buildTools,
     "--paths", $runtimeSource,
     "--add-data=$dist;dist",
+    "--add-data=$((Join-Path $root 'public_edition.flag'));.",
     "--add-data=$((Join-Path $legacy 'icon.ico'));.",
     "--add-data=$((Join-Path $legacy '说明.txt'));.",
     "--add-data=$((Join-Path $legacy 'version.txt'));.",
@@ -166,6 +174,37 @@ if ($LASTEXITCODE -ne 0) { throw "打印农场助手打包失败" }
 $exe = Join-Path $out "PrintFarmAssistant\PrintFarmAssistant.exe"
 if (-not (Test-Path -LiteralPath $exe)) {
     throw "构建产物不存在：$exe"
+}
+
+$coreExe = Join-Path $root "protected_core.exe"
+$coreHash = Join-Path $root "protected_core.sha256"
+if (-not (Test-Path -LiteralPath $coreExe) -or
+    -not (Test-Path -LiteralPath $coreHash)) {
+    throw "缺少多色排盘受保护组件或 SHA-256 清单"
+}
+$expectedCoreHash = (Get-Content -LiteralPath $coreHash -Raw).Trim().Split()[0]
+$actualCoreHash = (Get-FileHash -LiteralPath $coreExe -Algorithm SHA256).Hash
+if ($expectedCoreHash -ne $actualCoreHash) {
+    throw "多色排盘受保护组件 SHA-256 校验失败"
+}
+Copy-Item -LiteralPath $coreExe -Destination (Split-Path -Parent $exe) -Force
+Copy-Item -LiteralPath $coreHash -Destination (Split-Path -Parent $exe) -Force
+
+if (-not $SkipMcp) {
+    & (Join-Path $mcpSource "build_mcp.ps1") -Python $Python -OutDir $mcpDist
+    if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $mcpExe)) {
+        throw "MCP Server 构建失败"
+    }
+    $appDir = Split-Path -Parent $exe
+    Copy-Item -LiteralPath $mcpExe -Destination $appDir -Force
+    Copy-Item -LiteralPath (Join-Path $mcpSource "install_tuozhu_mcp.ps1") `
+        -Destination $appDir -Force
+    $mcpDocs = Join-Path $appDir "mcp"
+    New-Item -ItemType Directory -Path $mcpDocs -Force | Out-Null
+    Copy-Item -LiteralPath (Join-Path $mcpSource "README.md") `
+        -Destination $mcpDocs -Force
+    Copy-Item -LiteralPath (Join-Path $mcpSource "examples") `
+        -Destination $mcpDocs -Recurse -Force
 }
 
 if (-not (Test-Path -LiteralPath $converterExe)) {

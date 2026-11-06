@@ -193,6 +193,22 @@ export function parseParameterCommand(text: string): ParsedParameters {
     }
   }
 
+  if (/(?:满盘参考|满盘排布|最省空间排盘)/.test(normalized)) {
+    patch.multicolorStrategy = "fewer_plates";
+    summaries.push("满盘参考");
+  } else if (/(?:按盘时长|按时长|目标时长)/.test(normalized)) {
+    patch.multicolorStrategy = "time_budget";
+    summaries.push("按盘时长");
+  }
+  const targetHoursMatch = normalized.match(
+    /(?:目标|每盘|时长)\s*(\d+(?:\.\d+)?)\s*(?:小时|h)/i,
+  );
+  if (targetHoursMatch) {
+    const hours = Math.min(12, Math.max(1, Number(targetHoursMatch[1])));
+    patch.targetHours = String(hours);
+    summaries.push(`${hours} 小时目标`);
+  }
+
   if (/(?:仅|只).{0,4}(?:可编辑\s*3mf|3mf)/i.test(normalized)) {
     patch.outputMode = "3mf";
     summaries.push("仅生成可编辑 3MF");

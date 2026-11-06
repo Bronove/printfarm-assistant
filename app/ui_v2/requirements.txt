@@ -1,6 +1,9 @@
 Pillow>=10.4,<11
 numpy>=1.26,<2
+scipy>=1.13,<2
 trimesh>=5.0,<6
 gmsh==4.15.2
+uiautomation>=2.0.29,<3
+comtypes>=1.4.16,<2
 pyinstaller>=6.21,<7
 pywebview>=5.4,<7

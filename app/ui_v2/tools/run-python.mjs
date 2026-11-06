@@ -1,6 +1,9 @@
 import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
 
-const python = process.env.PRINTFARM_PYTHON || "python";
+const configuredPython = process.env.PRINTFARM_PYTHON;
+const python = configuredPython
+  || (existsSync("D:\\python\\python.exe") ? "D:\\python\\python.exe" : "python");
 const result = spawnSync(python, process.argv.slice(2), {
   stdio: "inherit",
   windowsHide: true,

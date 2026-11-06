@@ -2,10 +2,14 @@
 """V2 后端复用测试：解析和命令构造必须继续使用原版规则。"""
 
 import os
+import json
+import hashlib
 import shutil
 import sys
 import tempfile
+import time
 import atexit
+import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
@@ -32,6 +36,8 @@ SETTINGS = {
     "clone": "1",
     "outputMode": "gcode",
     "maxColors": "4",
+    "multicolorStrategy": "zero_flush",
+    "targetHours": "4",
     "hideSeam": True,
     "topIroning": True,
 }
@@ -72,6 +78,30 @@ def _generated_probe_stl():
         handle.write("solid printfarm_probe\n")
         handle.writelines(facets)
         handle.write("endsolid printfarm_probe\n")
+    return path
+
+
+def _generated_multicolor_3mf():
+    work = tempfile.mkdtemp(prefix="printfarm_multicolor_fixture_")
+    atexit.register(shutil.rmtree, work, True)
+    path = os.path.join(work, "multicolor_probe.3mf")
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr(
+            "[Content_Types].xml",
+            (
+                '<?xml version="1.0" encoding="UTF-8"?>'
+                '<Types xmlns="http://schemas.openxmlformats.org/'
+                'package/2006/content-types">'
+                '<Default Extension="model" ContentType="application/'
+                'vnd.ms-package.3dmanufacturing-3dmodel+xml"/>'
+                '<Default Extension="config" ContentType="text/plain"/>'
+                "</Types>"
+            ),
+        )
+        archive.writestr(
+            "Metadata/project_settings.config",
+            "machine=Bambu Lab P2S 0.4 nozzle\n",
+        )
     return path
 
 
@@ -158,28 +188,193 @@ def main():
                         "--batch" in batch["command"],
                         " ".join(batch["command"])))
 
+    with tempfile.TemporaryDirectory(prefix="v2_farm_merge_") as work:
+        second = os.path.join(work, "second.stl")
+        shutil.copy2(model, second)
+        combined_settings = dict(SETTINGS)
+        combined_settings["printer"] = "Bambu Lab P1S"
+        combined_settings["batchOutputMode"] = "combined"
+        combined_settings["supportOverlap"] = False
+        combined = service.CORE.build_command(
+            mode="batch",
+            models=[model, second],
+            settings=combined_settings,
+            command_text="",
+            output_dir=os.path.join(work, "out"),
+            batch_items=[
+                {
+                    "path": model,
+                    "quantity": 3,
+                    "parameterSource": "current",
+                },
+                {
+                    "path": second,
+                    "quantity": 2,
+                    "parameterSource": "file",
+                },
+            ],
+        )
+        combined_command = " ".join(combined["command"])
+        manifest_index = combined["command"].index(
+            "--farm-merge-plan") + 1
+        manifest_path = combined["command"][manifest_index]
+        with open(manifest_path, encoding="utf-8") as handle:
+            manifest = json.load(handle)
+        passed.append(check(
+            "批量工作台可进入多文件合并排盘",
+            "--farm-merge-plan" in combined_command
+            and manifest["files"][0]["quantity"] == 3
+            and manifest["files"][1]["parameterSource"] == "current"
+            and manifest.get("outputMode") == "editable",
+            repr(combined),
+        ))
+        passed.append(check(
+            "合并排盘使用当前选择的 P1S，而不是上次保存的机型",
+            manifest["machine"] == "Bambu Lab P1S 0.4 nozzle",
+            repr(manifest.get("machine")),
+        ))
+        passed.append(check(
+            "合并排盘把当前设置参数带入清单",
+            "layer_height=0.16" in manifest.get("processOverride", "")
+            and "sparse_infill_density=15%" in manifest.get(
+                "processOverride", ""),
+            repr(manifest.get("processOverride")),
+        ))
+        if combined.get("tempDir"):
+            shutil.rmtree(combined["tempDir"], ignore_errors=True)
+
+    embedded_model = os.path.abspath(os.path.join(
+        ROOT, "..", "test_files", "v217_yaw_alignment", "case1_m.3mf"
+    ))
+    if os.path.isfile(embedded_model):
+        file_settings = dict(SETTINGS)
+        file_settings["parameterPolicy"] = {
+            "mode": "file",
+            "overrides": {},
+        }
+        file_spec = service.CORE.build_command(
+            mode="workbench",
+            models=[embedded_model],
+            settings=file_settings,
+            command_text="",
+            output_dir=os.path.join(ROOT, "test-output"),
+        )
+        file_command = " ".join(file_spec["command"])
+        passed.append(check(
+            "跟随文件时启用项目参数保留",
+            "--preserve-project 1" in file_command
+            and "layer_height=0.16" not in file_command
+            and "sparse_infill_density=15%" not in file_command
+            and "support_type=tree(auto)" not in file_command,
+            file_command,
+        ))
+        passed.append(check(
+            "隐藏 Z 缝不阻止保留文件参数",
+            "seam_slope_conditional=1" in file_command,
+            file_command,
+        ))
+
+        custom_settings = dict(SETTINGS)
+        custom_settings["parameterPolicy"] = {
+            "mode": "custom",
+            "overrides": {
+                "layerHeight": True,
+                "infill": False,
+                "pattern": False,
+                "support": False,
+            },
+        }
+        custom_spec = service.CORE.build_command(
+            mode="workbench",
+            models=[embedded_model],
+            settings=custom_settings,
+            command_text="",
+            output_dir=os.path.join(ROOT, "test-output"),
+        )
+        custom_command = " ".join(custom_spec["command"])
+        passed.append(check(
+            "逐项选择只覆盖勾选项",
+            "--preserve-project 1" in custom_command
+            and "layer_height=0.16" in custom_command
+            and "support_type=tree(auto)" not in custom_command,
+            custom_command,
+        ))
+
+        from bambu_cli import unpack_3mf
+        inherited = unpack_3mf.project_overrides(embedded_model)
+        passed.append(check(
+            "3MF 项目参数包含层高和支撑",
+            "layer_height=0.2" in inherited
+            and "enable_support=1" in inherited
+            and "sparse_infill_pattern=grid" in inherited,
+            inherited,
+        ))
+
+        with tempfile.TemporaryDirectory(prefix="v2_embedded_multi_") as work:
+            first = os.path.join(work, "first.3mf")
+            second = os.path.join(work, "second.3mf")
+            shutil.copy2(embedded_model, first)
+            shutil.copy2(embedded_model, second)
+            multi_spec = service.CORE.build_command(
+                mode="batch",
+                models=[first, second],
+                settings=file_settings,
+                command_text="",
+                output_dir=os.path.join(work, "out"),
+            )
+            multi_commands = multi_spec.get("commands") or []
+            passed.append(check(
+                "多个 3MF 分别保留自身参数",
+                len(multi_commands) == 2
+                and all(
+                    "--preserve-project 1" in " ".join(command)
+                    for command in multi_commands
+                ),
+                repr(multi_commands),
+            ))
+
+        stl_fallback = service.CORE.build_command(
+            mode="workbench",
+            models=[model],
+            settings=file_settings,
+            command_text="",
+            output_dir=os.path.join(ROOT, "test-output"),
+        )
+        stl_fallback_command = " ".join(stl_fallback["command"])
+        passed.append(check(
+            "STL 没有内嵌参数时回退到当前习惯",
+            "--preserve-project 1" not in stl_fallback_command
+            and "layer_height=0.16" in stl_fallback_command
+            and "sparse_infill_density=15%" in stl_fallback_command,
+            stl_fallback_command,
+        ))
+
     multicolor_model = os.path.abspath(os.path.join(
         ROOT, "..", "test_files", "labubu_only_input", "毒液拉布布_可编辑.3mf"
     ))
+    if not os.path.isfile(multicolor_model):
+        multicolor_model = _generated_multicolor_3mf()
     if os.path.isfile(multicolor_model):
-        public_blocked = False
-        try:
-            service.CORE.build_command(
-                mode="multicolor",
-                models=[multicolor_model],
-                settings=SETTINGS,
-                command_text="零串色",
-                output_dir=os.path.join(ROOT, "test-output"),
-            )
-        except ValueError as exc:
-            public_blocked = "公开版" in str(exc)
         passed.append(check(
-            "公开版后端拒绝多色模式",
-            service.PUBLIC_EDITION and public_blocked,
+            "公开与研发版都开放多色模式",
+            "multicolor" in service.PUBLIC_WORKSPACE_MODES,
         ))
-
-        # 保留私版底层命令测试；公开版运行时必须先拒绝这些模式。
-        service.PUBLIC_EDITION = False
+        if service.PUBLIC_EDITION:
+            figurine_blocked = False
+            try:
+                service.CORE.build_command(
+                    mode="figurine",
+                    models=[multicolor_model],
+                    settings=SETTINGS,
+                    command_text="",
+                    output_dir=os.path.join(ROOT, "test-output"),
+                )
+            except ValueError as exc:
+                figurine_blocked = "公开版" in str(exc)
+            passed.append(check(
+                "公开版仍拒绝手办模式",
+                figurine_blocked,
+            ))
         multi = service.CORE.build_command(
             mode="multicolor",
             models=[multicolor_model],
@@ -188,17 +383,61 @@ def main():
             output_dir=os.path.join(ROOT, "test-output"),
         )
         command = " ".join(multi["command"])
-        passed.append(check("多色模式使用原版排盘入口",
-                            "--multicolor-plan" in command
-                            and "--strategy zero_flush" in command,
-                            command))
+        request_path = multi["command"][-1]
+        with open(request_path, encoding="utf-8") as handle:
+            request = json.load(handle)
+        passed.append(check(
+            "多色模式使用受保护核心 JSON 协议",
+            multi["command"][-2] == "plan"
+            and request.get("protocol") == service.PROTECTED_CORE_PROTOCOL
+            and request.get("strategy") == "zero_flush",
+            command,
+        ))
         passed.append(check(
             "多色模式传递支撑和切片参数",
-            "support_type=tree(auto)" in command
-            and "support_on_build_plate_only=1" in command
-            and "layer_height=0.16" in command
-            and "sparse_infill_density=15%" in command,
-            command,
+            "support_type=tree(auto)" in request.get("process_overrides", "")
+            and "support_on_build_plate_only=1"
+            in request.get("process_overrides", "")
+            and "layer_height=0.16"
+            in request.get("process_overrides", "")
+            and "sparse_infill_density=15%"
+            in request.get("process_overrides", ""),
+            repr(request),
+        ))
+        timed_settings = dict(SETTINGS)
+        timed_settings["multicolorStrategy"] = "time_budget"
+        timed_settings["targetHours"] = "3"
+        timed = service.CORE.build_command(
+            mode="multicolor",
+            models=[multicolor_model],
+            settings=timed_settings,
+            command_text="按时长 3 小时",
+            output_dir=os.path.join(ROOT, "test-output"),
+        )
+        with open(timed["command"][-1], encoding="utf-8") as handle:
+            timed_request = json.load(handle)
+        passed.append(check(
+            "v2 按时长策略传递目标小时",
+            timed_request.get("strategy") == "time_budget"
+            and timed_request.get("target_hours") == 3
+            and timed_request.get("emit_printable") is False,
+            repr(timed_request),
+        ))
+        reference_settings = dict(SETTINGS)
+        reference_settings["multicolorStrategy"] = "fewer_plates"
+        reference = service.CORE.build_command(
+            mode="multicolor",
+            models=[multicolor_model],
+            settings=reference_settings,
+            command_text="满盘参考",
+            output_dir=os.path.join(ROOT, "test-output"),
+        )
+        with open(reference["command"][-1], encoding="utf-8") as handle:
+            reference_request = json.load(handle)
+        passed.append(check(
+            "v2 满盘参考不再写死零串色",
+            reference_request.get("strategy") == "fewer_plates",
+            repr(reference_request),
         ))
         no_support_settings = dict(SETTINGS)
         no_support_settings["supportMode"] = "off"
@@ -209,10 +448,13 @@ def main():
             command_text="不要支撑",
             output_dir=os.path.join(ROOT, "test-output"),
         )
+        with open(no_support["command"][-1], encoding="utf-8") as handle:
+            no_support_request = json.load(handle)
         passed.append(check(
             "多色模式可真正关闭支撑",
-            "enable_support=0" in " ".join(no_support["command"]),
-            " ".join(no_support["command"]),
+            "enable_support=0"
+            in no_support_request.get("process_overrides", ""),
+            repr(no_support_request),
         ))
         editable_settings = dict(SETTINGS)
         editable_settings["outputMode"] = "3mf"
@@ -223,11 +465,18 @@ def main():
             command_text="仅摆盘",
             output_dir=os.path.join(ROOT, "test-output"),
         )
+        with open(editable["command"][-1], encoding="utf-8") as handle:
+            editable_request = json.load(handle)
         passed.append(check(
             "多色仅摆盘不额外生成打印包",
-            "--emit-printable" not in editable["command"],
-            repr(editable["command"]),
+            editable_request.get("emit_printable") is False,
+            repr(editable_request),
         ))
+        for spec in (
+            multi, timed, reference, no_support, editable,
+        ):
+            if spec.get("tempDir"):
+                shutil.rmtree(spec["tempDir"], ignore_errors=True)
         task = service.TaskState(id="protocol-test")
         service.TASKS._handle_line(task, "PLAN|progress|0.900000")
         service.TASKS._handle_line(task, "PLAN|status|Bambu 已整理第 1 盘")
@@ -235,6 +484,48 @@ def main():
                             abs(task.progress - 0.9) < 0.001
                             and "第 1 盘" in task.message,
                             repr((task.progress, task.message))))
+
+        original_validator = service.CORE.validate_multicolor_result
+        try:
+            service.CORE.validate_multicolor_result = (
+                lambda payload, progress=None: {
+                    **payload,
+                    "slice_checked": True,
+                    "support_verified": True,
+                    "total_actual_hours": 1.25,
+                }
+            )
+            done_payload = json.dumps({
+                "file": "result.3mf",
+                "validation_required": True,
+                "plates": [{"name": "盘1"}],
+            }, ensure_ascii=False)
+            service.TASKS.start({
+                "command": [
+                    sys.executable,
+                    "-c",
+                    "print(%r)" % ("PLAN|done|" + done_payload),
+                ],
+                "cwd": ROOT,
+                "outputDir": os.path.join(ROOT, "test-output"),
+                "tempDir": "",
+            })
+            protocol_task = None
+            for _ in range(50):
+                protocol_task = service.TASKS.snapshot().get("task")
+                if protocol_task and protocol_task.get("status") != "running":
+                    break
+                time.sleep(0.05)
+            result = (protocol_task or {}).get("results") or []
+            passed.append(check(
+                "v2 在 PLAN 完成后执行真实检修回调",
+                bool(result)
+                and result[-1].get("slice_checked")
+                and result[-1].get("support_verified"),
+                repr(protocol_task),
+            ))
+        finally:
+            service.CORE.validate_multicolor_result = original_validator
 
         with tempfile.TemporaryDirectory(prefix="v2_multicolor_files_") as work:
             first = os.path.join(work, "first.3mf")
@@ -249,18 +540,23 @@ def main():
                 output_dir=os.path.join(work, "out"),
             )
             commands = multi_files.get("commands") or []
+            request_sources = []
+            for command in commands:
+                with open(command[-1], encoding="utf-8") as handle:
+                    request_sources.append(json.load(handle).get("source"))
             passed.append(check(
                 "多文件多色没有丢文件",
                 len(commands) == 2
-                and all((first if index == 0 else second) in " ".join(command)
-                        for index, command in enumerate(commands)),
-                repr(commands),
+                and request_sources == [first, second],
+                repr((commands, request_sources)),
             ))
             passed.append(check(
                 "多文件多色使用独立输出目录",
                 len(set(multi_files.get("planDirs") or [])) == 2,
                 repr(multi_files.get("planDirs")),
             ))
+            if multi_files.get("tempDir"):
+                shutil.rmtree(multi_files["tempDir"], ignore_errors=True)
 
         with tempfile.TemporaryDirectory(prefix="v2_output_name_") as work:
             source = os.path.join(work, "紧凑摆盘测试1(1).3mf")
@@ -280,6 +576,34 @@ def main():
                 os.path.basename(named["output"]) == "紧凑摆盘测试1_摆盘.3mf",
                 named["output"],
             ))
+
+    with tempfile.TemporaryDirectory(prefix="v2_core_hash_") as work:
+        core_path = os.path.join(work, "protected_core.exe")
+        hash_path = os.path.join(
+            work, service.PROTECTED_CORE_HASH_NAME
+        )
+        with open(core_path, "wb") as handle:
+            handle.write(b"printfarm-core-fixture")
+        with open(core_path, "rb") as handle:
+            digest = hashlib.sha256(handle.read()).hexdigest()
+        with open(hash_path, "w", encoding="ascii") as handle:
+            handle.write(digest + "  protected_core.exe\n")
+        verified = (
+            str(service._verify_protected_core(core_path))
+            == os.path.abspath(core_path)
+        )
+        with open(core_path, "ab") as handle:
+            handle.write(b"tampered")
+        blocked = False
+        try:
+            service._verify_protected_core(core_path)
+        except RuntimeError as exc:
+            blocked = "校验失败" in str(exc)
+        passed.append(check(
+            "受保护组件正常校验且篡改后拒绝运行",
+            verified and blocked,
+            repr((verified, blocked)),
+        ))
 
     service.PUBLIC_EDITION = True
 
@@ -395,7 +719,17 @@ def main():
             repr((missing_cwd, resolved_cwd)),
         ))
 
+    cleanup_session = service.UPLOAD_ROOT / __import__("uuid").uuid4().hex
+    cleanup_session.mkdir(parents=True)
+    (cleanup_session / "old.stl").write_text("old", encoding="ascii")
+
     import server
+    cleanup_removed = server._cleanup_upload_sessions()
+    passed.append(check(
+        "启动时清理上次遗留的上传会话",
+        cleanup_removed >= 1 and not cleanup_session.exists(),
+        repr((cleanup_removed, cleanup_session)),
+    ))
     with tempfile.TemporaryDirectory(prefix="v2_upload_paths_") as work:
         session = __import__("pathlib").Path(work)
         first = server._safe_upload_target(
@@ -433,7 +767,6 @@ def main():
             repr(preview[:40]),
         ))
 
-        import json
         import native_dialog
         selection_file = session / "selection.json"
         expected_folder = os.path.join(
@@ -474,6 +807,81 @@ def main():
             and not (cleanup_dir / "切片报告.txt").exists(),
             repr(sorted(path.name for path in cleanup_dir.iterdir())),
         ))
+
+    import http.client
+    import threading
+    from http.server import ThreadingHTTPServer
+    from urllib.parse import urlencode
+    import server as bridge_server
+
+    bridge = ThreadingHTTPServer(("127.0.0.1", 0), bridge_server.Handler)
+    thread = threading.Thread(target=bridge.serve_forever, daemon=True)
+    thread.start()
+    session_id = ""
+    try:
+        connection = http.client.HTTPConnection(
+            "127.0.0.1", bridge.server_port, timeout=20)
+
+        def post(path, body, content_type):
+            connection.request(
+                "POST", path, body=body,
+                headers={"Content-Type": content_type},
+            )
+            response = connection.getresponse()
+            payload = json.loads(response.read().decode("utf-8"))
+            return response.status, payload
+
+        status, started = post(
+            "/api/import/start", b"{}", "application/json")
+        session_id = started.get("sessionId", "")
+        with open(_generated_probe_stl(), "rb") as handle:
+            model_bytes = handle.read()
+        query = urlencode({
+            "session": session_id,
+            "relativePath": "中文批次/测试模型.stl",
+        })
+        status_file, _ = post(
+            "/api/import/file?" + query,
+            model_bytes,
+            "application/octet-stream",
+        )
+        status_finish, finished = post(
+            "/api/import/finish?session=" + session_id,
+            b"{}",
+            "application/json",
+        )
+        jobs = finished.get("jobs") or []
+        passed.append(check(
+            "模型导入使用原始二进制流并保留中文相对路径",
+            status == 200
+            and status_file == 200
+            and status_finish == 200
+            and len(jobs) == 1
+            and jobs[0].get("relativePath")
+            == "中文批次/测试模型.stl"
+            and jobs[0].get("size") == len(model_bytes),
+            repr((status, status_file, status_finish, finished)),
+        ))
+        status_release, released = post(
+            "/api/import/release",
+            b"{}",
+            "application/json",
+        )
+        passed.append(check(
+            "清空队列对应的上传会话已删除",
+            status_release == 200
+            and released.get("removed", 0) >= 1
+            and not (bridge_server.UPLOAD_ROOT / session_id).exists(),
+            repr((status_release, released)),
+        ))
+    finally:
+        bridge.shutdown()
+        bridge.server_close()
+        if session_id:
+            shutil.rmtree(
+                bridge_server.UPLOAD_ROOT / session_id,
+                ignore_errors=True,
+            )
 
     if all(passed):
         print("V2 后端复用测试：全部通过")

@@ -97,6 +97,18 @@ try {
     if (-not $app) {
         throw "Installer did not create the application executable."
     }
+    $mcp = Join-Path $target "tuozhu-mcp.exe"
+    $mcpInstaller = Join-Path $target "install_tuozhu_mcp.ps1"
+    $mcpReadme = Join-Path $target "mcp\README.md"
+    foreach ($required in @($mcp, $mcpInstaller, $mcpReadme)) {
+        if (-not (Test-Path -LiteralPath $required)) {
+            throw "Installer did not include MCP component: $required"
+        }
+    }
+    $mcpVersion = & $mcp --version
+    if ($LASTEXITCODE -ne 0 -or -not $mcpVersion) {
+        throw "Installed MCP server failed its version self-test."
+    }
 
     $env:TUOZHU_E2E_EXE = $app.FullName
     & npm.cmd run test:e2e:packaged

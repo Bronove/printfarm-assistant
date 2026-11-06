@@ -15,17 +15,22 @@
 ## 下载
 
 请从 [Releases](https://github.com/Bronove/printfarm-assistant/releases) 下载
-`PrintFarmAssistant-v1.5.0-beta.1-win64-setup.exe`。
+`PrintFarmAssistant-v1.6.0-beta.1-win64-setup.exe`。
 
 当前测试版提供：
 
 - 切片工作台：导入 STL、3MF、STEP/STP，直接生成可打印的 `.gcode.3mf`。
+- 多色排盘：按颜色分类，支持零串色、满盘参考和按时长排盘，并生成可在
+  Bambu Studio 继续编辑的通用 `.3mf`。
 - 批量切片：一次处理多个模型，并保留同名文件所在的子目录。
 - 普通自动摆盘、自动朝向、克隆和高级 Bambu 参数。
 - 最省空间与最少支撑，由随安装包提供的闭源优化组件执行。
+- 多色排盘规划与检修由独立的 `protected_core.exe` 执行；组件缺失、哈希不匹配
+  或协议版本不兼容时，软件会拒绝启动多色任务。
 - 全部配置、日志、OCR 和使用记录保存在本机，不上传遥测。
 
-公开基础代码使用 [MIT License](LICENSE)。多色排盘、手办模式和悬浮助手不包含在本次公开版本中；最省空间、最少支撑和 Bambu 桌面自动化组件保持闭源。
+公开基础代码使用 [MIT License](LICENSE)。手办模式和悬浮助手不包含在本次公开
+版本中；多色排盘、最省空间、最少支撑和 Bambu 桌面自动化组件保持闭源。
 
 ## 系统要求
 

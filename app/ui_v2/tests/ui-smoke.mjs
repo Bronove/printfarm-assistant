@@ -4,6 +4,7 @@ import { chromium } from "playwright-core";
 import { preview } from "vite";
 
 const root = path.resolve(import.meta.dirname, "..");
+const publicUi = process.argv.includes("--public");
 const edgeCandidates = [
   path.join(process.env["PROGRAMFILES(X86)"] ?? "", "Microsoft/Edge/Application/msedge.exe"),
   path.join(process.env.PROGRAMFILES ?? "", "Microsoft/Edge/Application/msedge.exe"),
@@ -90,18 +91,56 @@ try {
     contentType: "application/json",
     body: JSON.stringify(metaPayload),
   }));
-  await page.route("http://127.0.0.1:4180/api/import", (route) => route.fulfill({
+  let importedFileName = "bridge-test.stl";
+  await page.route("http://127.0.0.1:4180/api/import/start", (route) => route.fulfill({
     status: 200,
     contentType: "application/json",
-    body: JSON.stringify({
-      ok: true,
-      jobs: [{
-        path: "C:\\切片文件\\bridge-test.stl",
-        name: "bridge-test.stl",
-        size: 2048,
-        preview: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9Z8ioAAAAASUVORK5CYII=",
-      }],
-    }),
+    body: JSON.stringify({ ok: true, sessionId: "a".repeat(32) }),
+  }));
+  let uploadReleases = 0;
+  await page.route("http://127.0.0.1:4180/api/import/release", (route) => {
+    uploadReleases += 1;
+    return route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true, removed: 1 }),
+    });
+  });
+  await page.route("http://127.0.0.1:4180/api/import/file?*", async (route) => {
+    importedFileName = new URL(route.request().url()).searchParams.get("relativePath")
+      || importedFileName;
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    return route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    });
+  });
+  await page.route("http://127.0.0.1:4180/api/import/finish?*", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify((() => {
+      const fileName = importedFileName || "bridge-test.stl";
+      const is3mf = fileName.toLowerCase().endsWith(".3mf");
+      return {
+        ok: true,
+        jobs: [{
+          path: `C:\\切片文件\\${fileName}`,
+          name: fileName,
+          size: 2048,
+          preview: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9Z8ioAAAAASUVORK5CYII=",
+          fileSettings: is3mf ? {
+            hasEmbeddedSettings: true,
+            layerHeight: "0.2",
+            infill: "15%",
+            pattern: "grid",
+            supportEnabled: true,
+            supportType: "normal(auto)",
+            supportPlateOnly: false,
+          } : { hasEmbeddedSettings: false },
+        }],
+      };
+    })()),
   }));
   await page.route("http://127.0.0.1:4180/api/slice", (route) => route.fulfill({
     status: 200,
@@ -146,6 +185,11 @@ try {
   });
   await page.goto("http://127.0.0.1:4177/", { waitUntil: "networkidle" });
   await page.getByRole("heading", { name: "切片工作台", exact: true }).waitFor();
+  await page.getByRole("button", { name: "多色排盘" }).click();
+  await page.getByRole("heading", { name: "准备多色工程" }).waitFor();
+  await page.getByLabel("多色摆盘策略").selectOption("time_budget");
+  await page.getByText("每盘目标", { exact: true }).waitFor();
+  await page.getByRole("button", { name: "切片工作台" }).click();
   await page.getByRole("heading", { name: "排盘参数", exact: true }).waitFor();
   assert(
     await page.getByText("UI 预览", { exact: true }).count() === 0,
@@ -449,12 +493,15 @@ try {
   await page.getByText("当前是演示任务").waitFor();
 
   await page.getByRole("button", { name: "清空" }).click();
+  assert(uploadReleases > 0, "清空队列后没有释放上传缓存");
   await page.getByRole("button", { name: "切片工作台" }).click();
   await page.locator('input[accept=".stl,.3mf,.step,.stp"]').setInputFiles({
     name: "bridge-test.stl",
     mimeType: "model/stl",
     buffer: Buffer.from("solid test\nendsolid test\n"),
   });
+  await page.getByRole("status", { name: "正在处理" }).waitFor();
+  await page.getByText("正在导入 1/1").waitFor();
   await page.getByText("已导入 1 个模型，可以开始切片").waitFor();
   assert(
     await page.locator(".queue-item__preview img").count() === 1,
@@ -464,22 +511,156 @@ try {
   assert(!(await workbenchButton.isDisabled()), "真实模型导入后主操作仍不可用");
   await workbenchButton.click();
   await page.getByRole("button", { name: "停止切片" }).waitFor();
+  assert(
+    await page.getByRole("button", { name: "清空" }).isDisabled()
+      && await page.getByRole("button", { name: "选择文件" }).isDisabled()
+      && await page.getByLabel("打印机").isDisabled(),
+    "切片运行中仍可修改队列或参数",
+  );
   await page.getByText("切片完成，输出目录").waitFor({ timeout: 5000 });
   await page.getByRole("button", { name: "打开所在位置" }).waitFor();
   assert(taskPolls >= 2, "切片任务没有进入状态轮询");
 
   assert(
-    await page.getByRole("button", { name: "多色排盘" }).count() === 0,
-    "公开版不应显示多色排盘入口",
+    await page.getByRole("button", { name: "多色排盘" }).count() === 1,
+    "应显示多色排盘入口",
+  );
+  if (publicUi) {
+    assert(
+      await page.getByRole("button", { name: "手办模式" }).count() === 0,
+      "公开版不应显示手办模式入口",
+    );
+  } else {
+    assert(
+      await page.getByRole("button", { name: "手办模式" }).count() === 1,
+      "研发版应显示手办模式入口",
+    );
+    await page.getByRole("button", { name: "手办模式" }).click();
+    await page.getByRole("heading", { name: "准备手办模型" }).waitFor();
+    await page.getByText("手办稳定朝向").waitFor();
+    await page.getByRole("button", { name: "生成手办切片" }).waitFor();
+    assert(
+      await page.getByRole("switch", { name: "隐藏 Z 缝" }).getAttribute("aria-checked") === "true",
+      "进入手办模式应自动启用隐藏 Z 缝",
+    );
+  }
+
+  await page.getByRole("button", { name: "批量切片" }).click();
+  await page.getByRole("heading", { name: "多文件合盘排布" }).waitFor();
+  assert(
+    await page.getByText("可编辑多盘 .3mf", { exact: true }).isVisible(),
+    "批量合盘没有明确标注可编辑 3MF 输出",
   );
   assert(
-    await page.getByRole("button", { name: "手办模式" }).count() === 0,
-    "公开版不应显示手办模式入口",
+    await page.getByLabel("打印机", { exact: true }).count() === 1
+      && await page.getByLabel("打印板", { exact: true }).count() === 1,
+    "打印机与打印板必须使用两个独立选择框",
   );
+  assert(
+    await page.getByLabel("打印机与打印板", { exact: true }).count() === 0,
+    "批量切片不应继续提供合并的打印机与打印板选择框",
+  );
+  await page.getByRole("button", { name: "清空" }).click();
+  if (process.env.BATCH_UI_SCREENSHOT_DIR) {
+    const screenshotDir = path.resolve(process.env.BATCH_UI_SCREENSHOT_DIR);
+    fs.mkdirSync(screenshotDir, { recursive: true });
+    await page.screenshot({
+      path: path.join(screenshotDir, "batch-ui-refined-empty.png"),
+      fullPage: true,
+    });
+  }
+  await page.locator('input[accept=".stl,.3mf,.step,.stp"]').first().setInputFiles({
+    name: "farm-a.stl",
+    mimeType: "model/stl",
+    buffer: Buffer.from("solid test\nendsolid test\n"),
+  });
+  await page.getByText("1 个文件已导入").waitFor();
+  await page.getByRole("spinbutton", { name: "farm-a.stl 打印数量" }).fill("3");
+  assert(
+    await page.getByRole("spinbutton", { name: "farm-a.stl 打印数量" }).inputValue() === "3",
+    "文件数量没有更新",
+  );
+  const batchStats = await page
+    .locator(".batch-merge-summary__stats > span")
+    .allTextContents();
+  assert(
+    batchStats[1]?.includes("3") && batchStats[2]?.includes("3"),
+    `合盘份数或展开零件汇总错误：${JSON.stringify(batchStats)}`,
+  );
+  for (const viewport of [
+    { width: 1440, height: 960 },
+    { width: 900, height: 900 },
+    { width: 600, height: 1000 },
+    { width: 420, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(
+      () => requestAnimationFrame(resolve),
+    )));
+    const layout = await page.evaluate(() => ({
+      viewportWidth: window.innerWidth,
+      documentWidth: document.documentElement.scrollWidth,
+      summaryWidth: document.querySelector(".batch-merge-summary")?.getBoundingClientRect().width,
+      buttonWidth: document.querySelector(".batch-merge-summary .button")?.getBoundingClientRect().width,
+    }));
+    assert(
+      layout.documentWidth <= layout.viewportWidth + 1,
+      `${viewport.width}px 批量工作台出现横向溢出：${JSON.stringify(layout)}`,
+    );
+    assert(
+      layout.summaryWidth && layout.buttonWidth && layout.buttonWidth <= layout.summaryWidth,
+      `${viewport.width}px 合盘主按钮超出汇总区：${JSON.stringify(layout)}`,
+    );
+  }
+  await page.setViewportSize({ width: 1440, height: 960 });
+  if (process.env.BATCH_UI_SCREENSHOT_DIR) {
+    const screenshotDir = path.resolve(process.env.BATCH_UI_SCREENSHOT_DIR);
+    fs.mkdirSync(screenshotDir, { recursive: true });
+    await page.screenshot({
+      path: path.join(screenshotDir, "batch-ui-refined-desktop.png"),
+      fullPage: true,
+    });
+    await page.setViewportSize({ width: 600, height: 1000 });
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(
+      () => requestAnimationFrame(resolve),
+    )));
+    await page.screenshot({
+      path: path.join(screenshotDir, "batch-ui-refined-narrow.png"),
+      fullPage: true,
+    });
+    await page.setViewportSize({ width: 1440, height: 960 });
+  }
+  await page.getByRole("button", { name: "生成可编辑 3MF" }).waitFor();
+  await page.getByRole("button", { name: "从队列移除 farm-a.stl" }).click();
+  await page.getByText("选择或拖入模型文件").waitFor();
+  await page.locator('input[accept=".stl,.3mf,.step,.stp"]').first().setInputFiles({
+    name: "farm-a.stl",
+    mimeType: "model/stl",
+    buffer: Buffer.from("solid test\nendsolid test\n"),
+  });
+  await page.getByText("1 个文件已导入").waitFor();
+  await page.getByRole("button", { name: "切片工作台" }).click();
   assert(
     await page.getByRole("button", { name: "打开悬浮窗助手" }).count() === 0,
     "公开版不应显示悬浮助手入口",
   );
+
+  await page.getByRole("button", { name: "清空" }).click();
+  await page.locator('input[accept=".stl,.3mf,.step,.stp"]').setInputFiles({
+    name: "embedded-settings.3mf",
+    mimeType: "model/3mf",
+    buffer: Buffer.from("test"),
+  });
+  await page.getByRole("heading", { name: "这些参数听谁的？" }).waitFor();
+  await page.getByText("0.2 mm", { exact: true }).first().waitFor();
+  await page.getByText("逐项选择", { exact: true }).click();
+  await page.locator(".import-custom-row").first().click();
+  await page.getByText("本次覆盖 1 项参数", { exact: true }).waitFor();
+  await page.getByRole("button", { name: "按此参数导入" }).click();
+  await page.getByText(/参数逐项覆盖 1 项/).waitFor();
+  await page.getByText("参数来源：逐项覆盖 1 项").waitFor();
+  await page.getByLabel("填充图案").selectOption("gyroid");
+  await page.getByText("参数来源：逐项覆盖 2 项").waitFor();
 
   const widget = await browser.newPage({ viewport: { width: 380, height: 620 } });
   await widget.goto("http://127.0.0.1:4177/?widget=assistant", {
@@ -493,7 +674,11 @@ try {
   );
   await widget.close();
 
-  console.log("UI 冒烟测试通过：公开模式、真实任务桥接、参数和 OCR");
+  console.log(
+    publicUi
+      ? "UI 冒烟测试通过：公开模式、多色入口、真实任务桥接、参数和 OCR"
+      : "UI 冒烟测试通过：研发模式、真实任务桥接、参数和 OCR",
+  );
 } finally {
   await browser.close();
   await new Promise((resolve) => server.httpServer.close(resolve));

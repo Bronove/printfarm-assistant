@@ -30,6 +30,7 @@ import sys
 import tempfile
 import time
 import zipfile
+import xml.etree.ElementTree as ET
 
 for _stream in (sys.stdout, sys.stderr):
     try:
@@ -336,6 +337,103 @@ def _is_bambu_studio_exe(path):
     return True
 
 
+def _profile_root_from_candidate(path):
+    """从安装目录、exe 或 BBL 目录本身解析出预设根目录。"""
+    if not path:
+        return ''
+    path = os.path.expandvars(os.path.expanduser(
+        str(path).strip().strip('"')))
+    if not path:
+        return ''
+    if os.path.isfile(path):
+        path = os.path.dirname(path)
+    candidates = [path]
+    # 允许用户直接填 resources、profiles 或 BBL 目录。
+    current = path
+    for _ in range(4):
+        current = os.path.dirname(current)
+        if not current or current == os.path.dirname(current):
+            break
+        candidates.append(current)
+    for base in candidates:
+        direct = [
+            base,
+            os.path.join(base, 'BBL'),
+            os.path.join(base, 'profiles', 'BBL'),
+            os.path.join(base, 'resources', 'profiles', 'BBL'),
+        ]
+        for candidate in direct:
+            if (os.path.isdir(candidate)
+                    and os.path.isdir(os.path.join(candidate, 'machine'))
+                    and os.path.isdir(os.path.join(candidate, 'process'))):
+                return os.path.normpath(candidate)
+    return ''
+
+
+def _registered_bambu_locations():
+    """读取卸载表/App Paths，返回安装目录和主程序候选。"""
+    result = []
+    try:
+        import winreg
+    except ImportError:
+        return result
+
+    def add(value):
+        if not value:
+            return
+        text = os.path.expandvars(str(value).strip().strip('"'))
+        text = text.split(',', 1)[0].strip().strip('"')
+        if text and text not in result:
+            result.append(text)
+
+    uninstall_paths = (
+        r'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
+        r'SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall',
+    )
+    for hive in (winreg.HKEY_CURRENT_USER, winreg.HKEY_LOCAL_MACHINE):
+        for sub in uninstall_paths:
+            try:
+                with winreg.OpenKey(hive, sub) as key:
+                    index = 0
+                    while True:
+                        try:
+                            child_name = winreg.EnumKey(key, index)
+                            index += 1
+                        except OSError:
+                            break
+                        try:
+                            with winreg.OpenKey(key, child_name) as child:
+                                display = str(winreg.QueryValueEx(
+                                    child, 'DisplayName')[0])
+                                if 'bambu' not in display.lower():
+                                    continue
+                                for value_name in (
+                                        'InstallLocation', 'DisplayIcon',
+                                        'UninstallString'):
+                                    try:
+                                        add(winreg.QueryValueEx(
+                                            child, value_name)[0])
+                                    except OSError:
+                                        continue
+                        except OSError:
+                            continue
+            except OSError:
+                continue
+    for hive in (winreg.HKEY_CURRENT_USER, winreg.HKEY_LOCAL_MACHINE):
+        for sub in (
+            r'SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths'
+            r'\bambu-studio.exe',
+            r'SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths'
+            r'\BambuStudio.exe',
+        ):
+            try:
+                with winreg.OpenKey(hive, sub) as key:
+                    add(winreg.QueryValueEx(key, '')[0])
+            except OSError:
+                pass
+    return result
+
+
 def find_bambu_exe(notes=None):
     """Bambu Studio 主程序的完整路径；找不到返回 None。
 
@@ -344,6 +442,14 @@ def find_bambu_exe(notes=None):
     def note(msg):
         if notes is not None:
             notes.append(msg)
+
+    for env_name in ('TUOZHU_BAMBU_EXE', 'BAMBU_STUDIO_EXE'):
+        candidate = os.environ.get(env_name)
+        if candidate and _is_bambu_studio_exe(candidate):
+            if _needs_admin(candidate):
+                note('%s 指向的 Bambu 被设为管理员运行，跳过' % env_name)
+            else:
+                return candidate
 
     # ---- macOS ----
     # Mac 上 Bambu 是个 .app，可执行文件在 Contents/MacOS 里、
@@ -407,6 +513,31 @@ def find_bambu_exe(notes=None):
                 note('%s 被设成"以管理员身份运行"，跳过' % p)
                 continue
             return p
+    for candidate in _registered_bambu_locations():
+        if _is_bambu_studio_exe(candidate) and not _needs_admin(candidate):
+            return candidate
+    # 安装目录可能被用户改成中文名。只扫描各盘顶层和小型安装目录，
+    # 不递归整个磁盘，避免拖慢启动。
+    for drive in ('D:', 'E:', 'F:', 'C:'):
+        root = drive + '\\'
+        try:
+            entries = os.scandir(root)
+        except OSError:
+            continue
+        with entries:
+            for entry in entries:
+                if not entry.is_dir(follow_symlinks=False):
+                    continue
+                try:
+                    if entry.name.lower() in (
+                            'windows', 'program files', 'program files (x86)',
+                            'programdata', 'users', '$recycle.bin'):
+                        continue
+                    exe = os.path.join(entry.path, 'bambu-studio.exe')
+                    if _is_bambu_studio_exe(exe):
+                        return exe
+                except OSError:
+                    continue
     return None
 
 
@@ -873,6 +1004,7 @@ def verify_3mf(path, plate=1):
             except (ValueError, OSError):
                 head['bed_type'] = None
         support_used = None
+        warnings = []
         si = 'Metadata/slice_info.config'
         if si in names:
             try:
@@ -880,7 +1012,16 @@ def verify_3mf(path, plate=1):
                 m = re.search(r'key="support_used"\s+value="([^"]+)"', info)
                 if m:
                     support_used = (m.group(1).strip().lower() == 'true')
-            except (KeyError, OSError):
+                root = ET.fromstring(info)
+                for node in root.iter():
+                    if str(node.tag).rsplit('}', 1)[-1] != 'warning':
+                        continue
+                    warnings.append({
+                        'msg': str(node.get('msg') or ''),
+                        'level': str(node.get('level') or ''),
+                        'error_code': str(node.get('error_code') or ''),
+                    })
+            except (KeyError, OSError, ET.ParseError):
                 support_used = None
         try:
             weight_g = float(head.get('total filament weight [g]') or 0)
@@ -898,6 +1039,8 @@ def verify_3mf(path, plate=1):
             'filament_weight_g': weight_g,
             'weight_g': weight_g,
             'support_used': support_used,
+            'warnings': warnings,
+            'warning_count': len(warnings),
             'layer_height': head.get('layer_height'),
             'printer_model': head.get('printer_model'),
             'printable_area': head.get('printable_area'),
@@ -938,6 +1081,12 @@ def verify_3mf(path, plate=1):
         merged['support_used'] = (
             any(s is True for s in supports)
             if any(s is not None for s in supports) else None)
+        merged['warnings'] = [
+            {'plate': index, **warning}
+            for index, plate in enumerate(plates, 1)
+            for warning in (plate.get('warnings') or [])
+        ]
+        merged['warning_count'] = len(merged['warnings'])
         return merged
 
 
@@ -959,6 +1108,17 @@ def find_profiles_root():
     查找顺序：环境变量给的常见安装位置 → 从**正在运行的 bambu-studio.exe**
     反推 → 常见盘符兜底。都找不到返回 ''（由调用方给人话提示，不抛栈）。
     """
+    # 用户显式指定优先，中文路径和自改安装名都按 Unicode 原样读取。
+    for env_name in (
+            'TUOZHU_BAMBU_PROFILES_ROOT',
+            'BAMBU_STUDIO_PROFILES_ROOT',
+            'TUOZHU_BAMBU_HOME',
+            'BAMBU_STUDIO_HOME'):
+        resolved = _profile_root_from_candidate(
+            os.environ.get(env_name))
+        if resolved:
+            return resolved
+
     cands = []
     # ---- macOS：预设就在 .app 包里 ----
     if sys.platform == 'darwin':
@@ -975,6 +1135,10 @@ def find_profiles_root():
         cands.append(os.path.join(base, 'Bambu Studio'))
         if env == 'LOCALAPPDATA':
             cands.append(os.path.join(base, 'Programs', 'Bambu Studio'))
+    cands.extend(_registered_bambu_locations())
+    exe = find_bambu_exe()
+    if exe:
+        cands.extend((exe, os.path.dirname(exe)))
     # 从正在运行的 Bambu 进程反推安装目录（最可靠）
     try:
         import ctypes
@@ -1009,11 +1173,27 @@ def find_profiles_root():
     for drive in ('D:', 'E:', 'C:', 'F:'):
         cands.append(drive + '\\Bambu Studio')
     for base in cands:
-        if not base:
+        resolved = _profile_root_from_candidate(base)
+        if resolved:
+            return resolved
+
+    # Bambu Studio 被用户重命名成“拓竹”等中文目录时，注册表可能仍是
+    # 旧路径。检查各盘一级目录，只做有限深度的目录探测。
+    for drive in ('D:', 'E:', 'F:', 'C:'):
+        try:
+            entries = os.scandir(drive + '\\')
+        except OSError:
             continue
-        p = os.path.join(base, 'resources', 'profiles', 'BBL')
-        if os.path.isdir(p):
-            return p
+        with entries:
+            for entry in entries:
+                if not entry.is_dir(follow_symlinks=False):
+                    continue
+                if entry.name.lower() in (
+                        'windows', 'users', 'programdata', '$recycle.bin'):
+                    continue
+                resolved = _profile_root_from_candidate(entry.path)
+                if resolved:
+                    return resolved
     return ''
 
 
@@ -1155,10 +1335,13 @@ def slice_one(model, args, out=None, keep_oriented_dir=None,
                 filament = 'Bambu PLA Basic @BBL P1S 0.4 nozzle'
     resolve_plate(args)
     overrides = DEFAULT_PROCESS_OVERRIDES
-    if args.process_override:
-        overrides = overrides + ';' + args.process_override
     if getattr(args, 'project_overrides', ''):
         overrides = overrides + ';' + args.project_overrides
+    # Explicit UI overrides and toolbox options must win over the baseline
+    # copied from the 3MF. Previously project values were appended last,
+    # which made selective overrides such as layer height impossible.
+    if args.process_override:
+        overrides = overrides + ';' + args.process_override
     if getattr(args, 'tail_override', ''):
         overrides = overrides + ';' + args.tail_override
     o_orient = args.orient if orient is None else orient
@@ -1900,16 +2083,24 @@ def pack_results(results, args, out_dir, tmp, folder_name, allow_single=False,
     """
     out_plates = []
     try:
-        indices = [i for i, r in enumerate(results)
-                   if r.get('ok') and r.get('footprint') and r.get('oriented')]
+        indices = [
+            i for i, r in enumerate(results)
+            if (
+                r.get('ok')
+                and r.get('oriented')
+                and (r.get('footprint') or tight)
+            )
+        ]
         print(f'BATCH|log|摆盘候选：{len(indices)}/{len(results)}')
         if not indices:
             return []
         # 支撑占地已经在每个零件的切片 footprint 里，板边统一留 12mm
         # 就够；以前保守模式额外留 30mm，会白白少放零件。
         margin = 12.0
-        pack_plate = (max(100.0, getattr(args, 'plate_w', 256.0) - margin),
-                      max(100.0, getattr(args, 'plate_h', 256.0) - margin))
+        pack_plate = (
+            max(100.0, getattr(args, 'plate_w', 256.0) - 2.0 * margin),
+            max(100.0, getattr(args, 'plate_h', 256.0) - 2.0 * margin),
+        )
 
         def rect_of(i):
             if tight:
@@ -1948,11 +2139,19 @@ def pack_results(results, args, out_dir, tmp, folder_name, allow_single=False,
                         mesh = rmesh
                 info = analyze_stl.analyze(mesh, args.plate_size)
                 mn = info['min']
-                placed.append((mesh, x - mn[0], y - mn[1], -mn[2]))
+                placed.append((
+                    mesh,
+                    x + margin - mn[0],
+                    y + margin - mn[1],
+                    -mn[2],
+                ))
                 w, h = rect_of(idx)
                 if rot:
                     w, h = h, w
-                rect = (x, y, x + w, y + h)
+                rect = (
+                    x + margin, y + margin,
+                    x + margin + w, y + margin + h,
+                )
                 for k in range(4):
                     exp[k] = rect[k] if exp[k] is None else (
                         min(exp[k], rect[k]) if k < 2 else max(exp[k], rect[k]))
@@ -1976,7 +2175,11 @@ def pack_results(results, args, out_dir, tmp, folder_name, allow_single=False,
                     版本用 arrange=2 重新排列这种合并对象时会误报“盘内没有
                     完整物体”，而 arrange=0 可以直接按现有坐标切片。
                     """
-                    for arrange_value in (0, 2):
+                    arrange_values = (
+                        (0,) if getattr(
+                            args, 'preserve_orientation', 0) else (0, 2)
+                    )
+                    for arrange_value in arrange_values:
                         try:
                             slice_one(
                                 merged,
@@ -2136,8 +2339,11 @@ def pack_results(results, args, out_dir, tmp, folder_name, allow_single=False,
             rects = [rect_of(i) for i in remaining]
             # BLF（Bottom-Left）比货架法更紧凑，两种模式都用它；
             # 非紧凑模式的矩形已经含支撑，转 90° 不会改变支撑占用。
-            plates = pack.pack_rects_blf(rects, plate=pack_plate,
-                                         gap=gap, rotate=True)
+            plates = pack.pack_rects_blf(
+                rects, plate=pack_plate, gap=gap,
+                rotate=not bool(getattr(
+                    args, 'preserve_orientation', 0)),
+                center=True)
             grouped = []
             for pl in plates:
                 items = pl.get('items', [])
@@ -2527,7 +2733,11 @@ def run_batch(args):
         for i, item in enumerate(items, 1):
             model = item['path']
             name = item['name']
-            out = unique_out(out_dir, item['out_name'])
+            out = (
+                None
+                if getattr(args, 'fast_pack', 0)
+                else unique_out(out_dir, item['out_name'])
+            )
             extra = ('' if item['parts'] <= 1 else
                      '（%d 个零件中的第 %d 个）'
                      % (item['parts'], item['part']))
@@ -2535,54 +2745,86 @@ def run_batch(args):
             actions = []
             ok, err, res = False, None, None
             body_pose = None
-            try:
-                part_args = prepare_split_part_args(
-                    args, item.get('source'), model,
-                    figurine_role=item.get('figurine_role'))
-                if item.get('figurine_role') == 'body':
-                    body_pose = body_pose_report(model)
-                    print('BATCH|log|%s：主体保留原朝向；接触 %.1f mm²，'
-                          '重心在内=%s，悬垂 %.1f mm²，预计支撑 %.2f cm³'
-                          % (name,
-                             float(body_pose.get('contact_mm2') or 0),
-                             body_pose.get('com_inside'),
-                             float(body_pose.get('overhang_mm2') or 0),
-                             float(body_pose.get(
-                                 'support_estimate_cm3') or 0)))
-                    actions.append('手办主体：保留原朝向')
-                    if body_pose.get('stable') is False:
-                        actions.append('手办主体：稳定性警告')
-                        print('BATCH|log|警告：%s 原始朝向不稳定，'
-                              '按手办规则不改朝向，请人工检查' % name)
-                res = slice_one(model, part_args, out=out,
-                                keep_oriented_dir=oriented_dir)
-                ok = True
-                if res and res.get('actions'):
-                    actions.extend(res['actions'])
-            except SliceError as e:
-                err, code = str(e), e.code
-                if args.orient and code in (-50, -2):
-                    try:
-                        actions.append('重试：关闭自动定向')
-                        res = slice_one(model, part_args, out=out,
-                                        keep_oriented_dir=oriented_dir,
-                                        orient=0)
-                        ok = True
-                    except SliceError as e2:
-                        err = str(e2)
-                if not ok and model.lower().endswith(('.stp', '.step')):
-                    try:
-                        actions.append('重试：调整 STEP 网格')
-                        res = slice_one(model, part_args, out=out,
-                                        keep_oriented_dir=oriented_dir,
-                                        mesh_size=1.0)
-                        ok = True
-                    except SliceError as e3:
-                        err = str(e3)
-            fp = footprint_of_3mf(out, args.slice_plate) if ok else None
+            if getattr(args, 'fast_pack', 0):
+                try:
+                    prepared = model
+                    if model.lower().endswith(('.stp', '.step')):
+                        prepared = os.path.join(tmp, 'fast_%04d.stl' % i)
+                        convert_step_to_stl(
+                            model, prepared, mesh_size=args.mesh_size)
+                        actions.append('快速合盘：STEP 转 STL')
+                    if prepared.lower().endswith('.stl'):
+                        repair_path = os.path.join(
+                            tmp, 'fast_%04d_repaired.stl' % i)
+                        repaired, _repair_info = repair_mesh.repair_mesh(
+                            prepared, repair_path)
+                        if repaired:
+                            prepared = repair_path
+                            actions.append('快速合盘：修复网格')
+                    res = {
+                        'oriented_stl': prepared,
+                        'summary': {},
+                        'actions': actions + ['快速合盘：跳过逐件切片'],
+                    }
+                    actions = list(res['actions'])
+                    ok = True
+                    print('BATCH|log|%s：快速合盘，跳过逐件切片' % name)
+                except Exception as exc:                 # noqa: BLE001
+                    err = str(exc)
+            else:
+                try:
+                    part_args = prepare_split_part_args(
+                        args, item.get('source'), model,
+                        figurine_role=item.get('figurine_role'))
+                    if item.get('figurine_role') == 'body':
+                        body_pose = body_pose_report(model)
+                        print('BATCH|log|%s：主体保留原朝向；接触 %.1f mm²，'
+                              '重心在内=%s，悬垂 %.1f mm²，预计支撑 %.2f cm³'
+                              % (name,
+                                 float(body_pose.get('contact_mm2') or 0),
+                                 body_pose.get('com_inside'),
+                                 float(body_pose.get('overhang_mm2') or 0),
+                                 float(body_pose.get(
+                                     'support_estimate_cm3') or 0)))
+                        actions.append('手办主体：保留原朝向')
+                        if body_pose.get('stable') is False:
+                            actions.append('手办主体：稳定性警告')
+                            print('BATCH|log|警告：%s 原始朝向不稳定，'
+                                  '按手办规则不改朝向，请人工检查' % name)
+                    res = slice_one(model, part_args, out=out,
+                                    keep_oriented_dir=oriented_dir)
+                    ok = True
+                    if res and res.get('actions'):
+                        actions.extend(res['actions'])
+                except SliceError as e:
+                    err, code = str(e), e.code
+                    if args.orient and code in (-50, -2):
+                        try:
+                            actions.append('重试：关闭自动定向')
+                            res = slice_one(model, part_args, out=out,
+                                            keep_oriented_dir=oriented_dir,
+                                            orient=0)
+                            ok = True
+                        except SliceError as e2:
+                            err = str(e2)
+                    if not ok and model.lower().endswith(('.stp', '.step')):
+                        try:
+                            actions.append('重试：调整 STEP 网格')
+                            res = slice_one(model, part_args, out=out,
+                                            keep_oriented_dir=oriented_dir,
+                                            mesh_size=1.0)
+                            ok = True
+                        except SliceError as e3:
+                            err = str(e3)
+            fp = (
+                footprint_of_3mf(out, args.slice_plate)
+                if ok and out else None
+            )
             # ★ 两者可同时开启：最少支撑先选方向，最省空间只负责更紧的
             #   装箱；这里不再二次立放，避免把最少支撑选好的方向推翻。
-            if (ok and args.tight and not getattr(args, 'min_support', 0)
+            if (ok and args.tight
+                    and not getattr(args, 'preserve_orientation', 0)
+                    and not getattr(args, 'min_support', 0)
                     and (res or {}).get('oriented_stl')):
                 # 紧凑摆盘：比较“平放/立放”占地，占地更小就立起来
                 opt_dst = os.path.join(
@@ -3109,7 +3351,8 @@ def run_layout_export(args):
         with tempfile.TemporaryDirectory(prefix='layout_presets_') as work:
             paths = flatten_presets.prepare_preset_root(
                 args.profiles_root, os.path.join(work, 'presetroot'),
-                machine, process, filament)
+                machine, process, filament,
+                process_overrides=getattr(args, 'process_override', '') or '')
             cmd += [
                 '--load-settings',
                 paths['machine'] + ';' + paths['process'],
@@ -3134,18 +3377,19 @@ def run_layout_export(args):
             if _repair_layout_metadata(candidate):
                 print('BATCH|log|已修复导出 3MF 的元数据转义')
             layout_plates = unpack_3mf.count_plates(candidate)
-            try:
-                check_layout_by_slicing(
-                    exe, candidate, layout_plates,
-                    settings=paths['machine'] + ';' + paths['process'],
-                    filament=paths['filament'],
-                    bed_type=args.bed_type)
-            except Exception:
+            if not getattr(args, 'skip_layout_check', 0):
                 try:
-                    os.remove(candidate)
-                except OSError:
-                    pass
-                raise
+                    check_layout_by_slicing(
+                        exe, candidate, layout_plates,
+                        settings=paths['machine'] + ';' + paths['process'],
+                        filament=paths['filament'],
+                        bed_type=args.bed_type)
+                except Exception:
+                    try:
+                        os.remove(candidate)
+                    except OSError:
+                        pass
+                    raise
     if protected:
         cmd += models
         print('LAYOUT RUN:', ' '.join(cmd))
@@ -3162,16 +3406,17 @@ def run_layout_export(args):
         if _repair_layout_metadata(candidate):
             print('BATCH|log|已修复导出 3MF 的元数据转义')
         layout_plates = unpack_3mf.count_plates(candidate)
-        try:
-            check_layout_by_slicing(
-                exe, candidate, layout_plates,
-                bed_type=args.bed_type)
-        except Exception:
+        if not getattr(args, 'skip_layout_check', 0):
             try:
-                os.remove(candidate)
-            except OSError:
-                pass
-            raise
+                check_layout_by_slicing(
+                    exe, candidate, layout_plates,
+                    bed_type=args.bed_type)
+            except Exception:
+                try:
+                    os.remove(candidate)
+                except OSError:
+                    pass
+                raise
     print('LAYOUT EXIT:', result.returncode)
     if result.returncode != 0 or not os.path.isfile(candidate):
         detail = (result.stderr or result.stdout or '')[-500:].strip()
@@ -3218,7 +3463,8 @@ def run_layout_export(args):
         'verified_plates': plates, 'pack_feature': '摆盘',
         'merged_out': out, 'min_support_models': 0,
         'min_support_g': 0, 'layout_only': True,
-        'slice_checked': True,
+        'slice_checked': not bool(
+            getattr(args, 'skip_layout_check', 0)),
     }, ensure_ascii=False))
     return out
 
@@ -3355,6 +3601,9 @@ def build_parser():
                     help='1 = 紧致摆盘：按模型本体占地装箱，支撑可互相重叠，'
                          '只保证不压本体；模型仍先自动选底面。'
                          '0 = 保守：按含支撑占地装箱（默认）')
+    ap.add_argument(
+        '--fast-pack', type=int, default=0,
+        help='1 = 快速合盘：支撑允许重叠时跳过逐件切片，只切合并盘')
     ap.add_argument('--gap', type=float, default=15.0, help='摆盘安全边距 mm')
     ap.add_argument('--max-depth', type=int, default=3, help='递归扫描深度')
     ap.add_argument('--mesh-size', type=float, default=2.0,
@@ -3407,6 +3656,8 @@ def build_parser():
     ap.add_argument('--keep-temp', action='store_true')
     ap.add_argument('--layout-only', type=int, default=0,
                     help='1 = 只摆盘并导出通用 .3mf，不执行切片')
+    ap.add_argument('--skip-layout-check', type=int, default=0,
+                    help='1 = 只导出布局，不生成临时 G-code 做切片预检')
     ap.add_argument('--no-check', type=int, default=0,
                     help='1 = 让 Bambu 跳过 gcode 走线冲突检查'
                          '（紧凑摆盘允许支撑互相重叠时要用）')
@@ -3414,6 +3665,9 @@ def build_parser():
                     help='紧凑摆盘时给"支撑"留的余量（每边 mm）。'
                          '0 = 支撑可互相重叠（软件端默认，极限紧凑）；'
                          '3 = 支撑之间也留距离，能过 Bambu 2.07 的走线冲突检查')
+    ap.add_argument(
+        '--preserve-orientation', type=int, default=0,
+        help='1 = 只平移零件，不在盘面旋转，也不让 Bambu 重排兜底')
     return ap
 
 
@@ -3430,7 +3684,8 @@ def main():
     if not args.profiles_root:
         print('ERROR: 没找到 Bambu Studio 的预设目录（resources/profiles/BBL）。')
         print('       请确认已安装 Bambu Studio；装了还是在别的盘，')
-        print('       就在软件端里手动指定：--profiles-root "X:\\...\\resources\\profiles\\BBL"')
+        print('       可设置 TUOZHU_BAMBU_HOME="D:\\拓竹" 后重启助手，')
+        print('       或指定：--profiles-root "D:\\拓竹\\resources\\profiles\\BBL"')
         sys.exit(3)
     print('BATCH|status|正在检查文件和运行环境', flush=True)
     try:

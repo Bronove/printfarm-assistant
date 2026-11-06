@@ -10,6 +10,15 @@
 - 输入格式：STL、3MF、STEP、STP
 - 输出格式：`.gcode.3mf`
 
+## 多色排盘
+
+- 输入仅接受包含颜色和材料信息的 3MF 工程。
+- 支持零串色、满盘参考和按盘时长三种策略。
+- 可生成可在 Bambu Studio 继续编辑的 `.3mf`，也可生成
+  `.gcode.3mf`。
+- 多色排盘依赖同安装目录的 `protected_core.exe`。组件缺失、哈希不一致
+  或协议版本不兼容时不会启动任务。
+
 ## Bambu Studio
 
 打印农场助手复用用户本机安装的 Bambu Studio 及其预设。Bambu Studio

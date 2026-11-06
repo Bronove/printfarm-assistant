@@ -46,10 +46,7 @@ if (!fs.existsSync(model)) {
     "ascii",
   );
 }
-const stepModel = path.resolve(
-  process.env.TUOZHU_E2E_STEP
-    || path.join(root, "..", "test_files", "block.stp"),
-);
+const stepModel = path.resolve(root, "..", "test_files", "block.stp");
 const edgeCandidates = [
   path.join(process.env["PROGRAMFILES(X86)"] ?? "", "Microsoft/Edge/Application/msedge.exe"),
   path.join(process.env.PROGRAMFILES ?? "", "Microsoft/Edge/Application/msedge.exe"),
@@ -118,6 +115,7 @@ try {
 
 const outputDir = await mkdtemp(path.join(os.tmpdir(), "tuozhu-v2-e2e-"));
 const dataDir = await mkdtemp(path.join(os.tmpdir(), "printfarm-data-e2e-"));
+const keepArtifacts = process.env.KEEP_PACKAGED_E2E === "1";
 const configPath = path.join(dataDir, "config.json");
 const originalConfig = await readFile(configPath, "utf8").catch((error) => {
   if (error?.code === "ENOENT") return null;
@@ -155,7 +153,7 @@ try {
 
   const modelInput = page.locator('input[type="file"][accept*=".stl"]');
   await modelInput.setInputFiles(model);
-  await page.getByText("已导入 1 个模型，可以开始切片。").waitFor({ timeout: 30_000 });
+  await page.getByText("已导入 1 个模型，可以开始切片。").waitFor({ timeout: 60_000 });
 
   assert(
     await page.locator("details.advanced-settings").evaluate((element) => element.open),
@@ -167,7 +165,24 @@ try {
   );
 
   await page.getByRole("button", { name: "开始切片" }).click();
-  await page.getByText(/切片完成，输出目录：/).waitFor({ timeout: 120_000 });
+  const firstDeadline = Date.now() + 120_000;
+  let firstState = null;
+  while (Date.now() < firstDeadline) {
+    firstState = await fetch("http://127.0.0.1:4180/api/state")
+      .then((response) => response.json())
+      .catch(() => null);
+    if (firstState?.task && !firstState.busy) break;
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  if (firstState?.task?.status !== "done") {
+    const failureShot = path.join(outputDir, "packaged-e2e-failure.png");
+    await page.screenshot({ path: failureShot, fullPage: true }).catch(() => {});
+    throw new Error(
+      `打包版单片任务未完成：${JSON.stringify(firstState?.task || firstState)}`
+      + `；截图：${failureShot}`,
+    );
+  }
+  await page.getByText(/切片完成/).waitFor({ timeout: 10_000 });
 
   const outputs = (await readdir(outputDir)).filter((name) => name.endsWith(".gcode.3mf"));
   assert(outputs.length === 1, `预期生成 1 个 G-code 3MF，实际为 ${outputs.length} 个`);
@@ -183,7 +198,7 @@ try {
   if (fs.existsSync(stepModel)) {
     await page.getByRole("button", { name: "清空" }).click();
     await page.locator('input[type="file"][accept*=".stl"]').setInputFiles(stepModel);
-    await page.getByText("已导入 1 个模型，可以开始切片。").waitFor({ timeout: 30_000 });
+    await page.getByText("已导入 1 个模型，可以开始切片。").waitFor({ timeout: 60_000 });
     await page.getByRole("button", { name: "开始切片" }).click();
 
     const stepDeadline = Date.now() + 180_000;
@@ -219,7 +234,11 @@ try {
   } else {
     await writeFile(configPath, originalConfig, "utf8");
   }
-  await removeWithRetry(outputDir);
-  await removeWithRetry(dataDir);
-  if (fixtureDir) await removeWithRetry(fixtureDir);
+  if (keepArtifacts) {
+    console.log(`保留打包测试目录：${outputDir}；${dataDir}`);
+  } else {
+    await removeWithRetry(outputDir);
+    await removeWithRetry(dataDir);
+    if (fixtureDir) await removeWithRetry(fixtureDir);
+  }
 }

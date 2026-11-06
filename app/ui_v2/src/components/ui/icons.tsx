@@ -78,6 +78,35 @@ export function CloseIcon(props: IconProps) {
   );
 }
 
+export function TrashIcon(props: IconProps) {
+  return (
+    <svg {...common} {...props}>
+      <path d="M5 7h14" />
+      <path d="M9 7V4.5h6V7" />
+      <path d="m7.5 7 .7 12.5h7.6L16.5 7" />
+      <path d="M10 10.5v5.5" />
+      <path d="M14 10.5v5.5" />
+    </svg>
+  );
+}
+
+export function PlusIcon(props: IconProps) {
+  return (
+    <svg {...common} {...props}>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
+    </svg>
+  );
+}
+
+export function MinusIcon(props: IconProps) {
+  return (
+    <svg {...common} {...props}>
+      <path d="M5 12h14" />
+    </svg>
+  );
+}
+
 export function ChevronIcon(props: IconProps) {
   return (
     <svg {...common} {...props}>

@@ -12,7 +12,7 @@
 在下载目录打开 PowerShell：
 
 ```powershell
-Get-FileHash .\PrintFarmAssistant-v1.5.0-beta.1-win64-setup.exe -Algorithm SHA256
+Get-FileHash .\PrintFarmAssistant-v1.6.0-beta.1-win64-setup.exe -Algorithm SHA256
 ```
 
 结果应与 `SHA256SUMS.txt` 一致。
@@ -44,6 +44,11 @@ Manager 会请求它退出，以便替换文件。
 ```
 
 导入模型后请先确认打印机、工艺、耗材、打印板、输出目录和支撑设置，再开始切片。输出文件通常以 `_切片.gcode.3mf` 结尾。
+
+使用“多色排盘”时请导入带颜色和材料信息的 3MF。软件会调用同安装目录下的
+`protected_core.exe`；若提示受保护组件缺失或校验失败，请重新安装官方安装包，
+不要只替换主程序文件。多色真实切片耗时较长，开始后请等待当前任务结束再修改
+模型或参数。
 
 ## 卸载
 

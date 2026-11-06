@@ -7,6 +7,11 @@ export const MODES: ModeDefinition[] = [
     description: "按原始朝向切片，适合已经整理好的单个模型。",
   },
   {
+    id: "multicolor",
+    label: "多色排盘",
+    description: "按颜色分类和满盘策略生成工程，并由 Bambu 真实试切检修。",
+  },
+  {
     id: "batch",
     label: "批量切片",
     description: "扫描文件夹并连续生成可直接打印的工程文件。",

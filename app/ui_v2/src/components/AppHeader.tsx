@@ -1,6 +1,9 @@
 import type { ModeDefinition, WorkspaceMode } from "../types";
 import { SlidersIcon } from "./ui/icons";
 
+const APP_VERSION =
+  import.meta.env.VITE_APP_VERSION?.trim() || "2.1.0-dev.9";
+
 export default function AppHeader({
   modes,
   activeMode,
@@ -23,7 +26,7 @@ export default function AppHeader({
         />
         <span className="brand__copy">
           <strong>打印农场助手</strong>
-          <span>PrintFarm Assistant · v1.5.0-beta.1</span>
+          <span>PrintFarm Assistant · v{APP_VERSION}</span>
         </span>
       </a>
 

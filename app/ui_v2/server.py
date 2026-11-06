@@ -10,13 +10,14 @@ import io
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import uuid
 import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 from PIL import Image
 
@@ -40,6 +41,33 @@ WINDOWS_RESERVED_NAMES = {
     *(f"COM{index}" for index in range(1, 10)),
     *(f"LPT{index}" for index in range(1, 10)),
 }
+
+MODEL_SUFFIXES = (".stl", ".3mf", ".step", ".stp")
+MAX_UPLOAD_BYTES = 2 * 1024 * 1024 * 1024
+
+
+def _cleanup_upload_sessions(root=None):
+    """Drop temporary model copies from previous app sessions."""
+    root = Path(root or UPLOAD_ROOT)
+    if not root.is_dir():
+        return 0
+    removed = 0
+    for child in root.iterdir():
+        if (
+            not child.is_dir()
+            or len(child.name) != 32
+            or any(ch not in "0123456789abcdef" for ch in child.name)
+        ):
+            continue
+        try:
+            shutil.rmtree(child)
+            removed += 1
+        except OSError:
+            log_exception(
+                "导入",
+                "清理旧上传会话失败：%s" % child.name,
+            )
+    return removed
 
 
 def _is_local_origin(value):
@@ -97,6 +125,57 @@ def _thumbnail_data_uri(path: Path):
     return ""
 
 
+def _project_parameter_summary(path: Path):
+    """Read the process parameters embedded in a Bambu 3MF project."""
+    if path.suffix.lower() != ".3mf":
+        return {"hasEmbeddedSettings": False}
+    try:
+        with zipfile.ZipFile(path) as archive:
+            if "Metadata/project_settings.config" not in archive.namelist():
+                return {"hasEmbeddedSettings": False}
+            config = json.loads(
+                archive.read("Metadata/project_settings.config").decode(
+                    "utf-8", "replace"
+                )
+            )
+    except (OSError, ValueError, zipfile.BadZipFile):
+        return {"hasEmbeddedSettings": False}
+
+    def first(key):
+        value = config.get(key)
+        if isinstance(value, list):
+            return value[0] if value else None
+        return value
+
+    def text(key):
+        value = first(key)
+        return "" if value is None else str(value).strip()
+
+    layer_height = text("layer_height")
+    infill = text("sparse_infill_density")
+    if infill and not infill.endswith("%"):
+        infill += "%"
+    support = text("enable_support").lower() in ("1", "true", "yes")
+    plate_only = text("support_on_build_plate_only").lower() in (
+        "1", "true", "yes"
+    )
+    result = {
+        "hasEmbeddedSettings": True,
+        "layerHeight": layer_height,
+        "infill": infill,
+        "pattern": text("sparse_infill_pattern"),
+        "supportEnabled": support,
+        "supportType": text("support_type"),
+        "supportPlateOnly": plate_only,
+        "material": text("filament_type"),
+    }
+    return {
+        key: value
+        for key, value in result.items()
+        if value not in ("", None)
+    }
+
+
 def _safe_upload_target(session: Path, relative_path: str, fallback: str):
     """把浏览器给出的相对路径安全地落到本次上传目录。"""
     raw_parts = str(relative_path or fallback).replace("\\", "/").split("/")
@@ -128,6 +207,58 @@ def _safe_upload_target(session: Path, relative_path: str, fallback: str):
             counter += 1
     target.parent.mkdir(parents=True, exist_ok=True)
     return target
+
+
+def _upload_session(value):
+    session_id = str(value or "").strip().lower()
+    try:
+        if uuid.UUID(session_id).hex != session_id:
+            raise ValueError
+    except (AttributeError, ValueError):
+        raise ValueError("导入会话无效")
+    session = UPLOAD_ROOT / session_id
+    if not session.is_dir():
+        raise ValueError("导入会话不存在")
+    return session
+
+
+def _import_job(session: Path, target: Path):
+    name = target.name
+    material = "待识别"
+    color = ""
+    merge_parts = 1
+    merge_issue = ""
+    if target.suffix.lower() == ".3mf":
+        if not zipfile.is_zipfile(target):
+            raise ValueError(f"{name} 不是完整的 3MF 工程")
+        try:
+            import unpack_3mf
+            info = unpack_3mf.project_filament_info(str(target))
+            merge_parts = unpack_3mf.count_printable_parts(str(target))
+            classes = info.get("color_classes") or []
+            if len(classes) == 1:
+                color = str(classes[0])
+                material = "单色工程"
+            elif classes:
+                material = "%d 色工程" % len(classes)
+            used_colors = info.get("used_colors") or []
+            used_types = info.get("used_types") or []
+            if len(used_colors) > 1 or len(used_types) > 1:
+                merge_issue = "检测到多色或多材料，请改用多色排盘"
+        except Exception:
+            pass
+    return {
+        "path": str(target),
+        "name": name,
+        "relativePath": target.relative_to(session).as_posix(),
+        "size": target.stat().st_size,
+        "material": material,
+        "color": color,
+        "preview": _thumbnail_data_uri(target),
+        "fileSettings": _project_parameter_summary(target),
+        "mergeParts": merge_parts,
+        "mergeIssue": merge_issue,
+    }
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -229,6 +360,9 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):  # noqa: N802
         if not self._guard_request():
             return
+        parsed_request = urlparse(self.path)
+        request_path = parsed_request.path
+        request_query = parse_qs(parsed_request.query)
         if self.path == "/api/open-pet":
             if PUBLIC_EDITION:
                 self._send(
@@ -280,6 +414,101 @@ class Handler(BaseHTTPRequestHandler):
                 log_exception("日志", "写入前端日志失败")
                 self._send(400, {"ok": False, "error": str(exc)[:240]})
             return
+        if request_path == "/api/import/start":
+            try:
+                session = UPLOAD_ROOT / uuid.uuid4().hex
+                session.mkdir(parents=True, exist_ok=False)
+                self._send(200, {"ok": True, "sessionId": session.name})
+            except Exception as exc:  # noqa: BLE001
+                log_exception("导入", "创建导入会话失败")
+                self._send(400, {"ok": False, "error": str(exc)[:240]})
+            return
+        if request_path == "/api/import/release":
+            if TASKS.snapshot().get("busy"):
+                self._send(
+                    409,
+                    {"ok": False, "error": "切片运行中不能清理上传文件"},
+                )
+                return
+            try:
+                removed = _cleanup_upload_sessions()
+                self._send(200, {"ok": True, "removed": removed})
+            except Exception as exc:  # noqa: BLE001
+                log_exception("导入", "清理上传会话失败")
+                self._send(400, {"ok": False, "error": str(exc)[:240]})
+            return
+        if request_path == "/api/import/file":
+            target = None
+            try:
+                session = _upload_session(
+                    (request_query.get("session") or [""])[0])
+                relative_path = (
+                    request_query.get("relativePath") or [""])[0]
+                name = Path(relative_path).name
+                if not name.lower().endswith(MODEL_SUFFIXES):
+                    raise ValueError("不是支持的模型文件")
+                if name.lower().endswith(".gcode.3mf"):
+                    raise ValueError("已经切片的 3MF 不能再次导入")
+                target = _safe_upload_target(
+                    session, relative_path, name or "model.stl")
+                self._write_request_body(target)
+                self._send(
+                    200,
+                    {
+                        "ok": True,
+                        "path": str(target),
+                        "relativePath": target.relative_to(session).as_posix(),
+                    },
+                )
+            except Exception as exc:  # noqa: BLE001
+                if target is not None:
+                    try:
+                        target.unlink()
+                    except OSError:
+                        pass
+                log_exception("导入", "流式写入模型失败")
+                self._send(400, {"ok": False, "error": str(exc)[:240]})
+            return
+        if request_path == "/api/import/finish":
+            try:
+                session = _upload_session(
+                    (request_query.get("session") or [""])[0])
+                jobs = []
+                issues = []
+                for target in sorted(
+                    (
+                        path for path in session.rglob("*")
+                        if path.is_file()
+                        and path.suffix.lower() in MODEL_SUFFIXES
+                    ),
+                    key=lambda path: path.relative_to(session).as_posix(),
+                ):
+                    try:
+                        jobs.append(_import_job(session, target))
+                    except Exception as exc:  # noqa: BLE001
+                        issues.append(str(exc))
+                        try:
+                            target.unlink()
+                        except OSError:
+                            pass
+                self._send(
+                    200 if jobs else 400,
+                    {
+                        "ok": bool(jobs),
+                        "jobs": jobs,
+                        "issues": issues,
+                        "error": "；".join(issues),
+                    },
+                )
+                log_event(
+                    "导入",
+                    "流式导入模型文件",
+                    {"jobs": jobs, "issues": issues},
+                )
+            except Exception as exc:  # noqa: BLE001
+                log_exception("导入", "完成模型导入失败")
+                self._send(400, {"ok": False, "error": str(exc)[:240]})
+            return
         if self.path == "/api/import":
             try:
                 payload = self._read_json(256 * 1024 * 1024)
@@ -313,16 +542,26 @@ class Handler(BaseHTTPRequestHandler):
                         continue
                     material = "待识别"
                     color = ""
+                    merge_parts = 1
+                    merge_issue = ""
                     if target.suffix.lower() == ".3mf":
                         try:
                             import unpack_3mf
                             info = unpack_3mf.project_filament_info(str(target))
+                            merge_parts = unpack_3mf.count_printable_parts(
+                                str(target))
                             classes = info.get("color_classes") or []
                             if len(classes) == 1:
                                 color = str(classes[0])
                                 material = "单色工程"
                             elif classes:
                                 material = "%d 色工程" % len(classes)
+                            used_colors = info.get("used_colors") or []
+                            used_types = info.get("used_types") or []
+                            if (len(used_colors) > 1
+                                    or len(used_types) > 1):
+                                merge_issue = (
+                                    "检测到多色或多材料，请改用多色排盘")
                         except Exception:
                             pass
                     jobs.append(
@@ -334,6 +573,9 @@ class Handler(BaseHTTPRequestHandler):
                             "material": material,
                             "color": color,
                             "preview": _thumbnail_data_uri(target),
+                            "fileSettings": _project_parameter_summary(target),
+                            "mergeParts": merge_parts,
+                            "mergeIssue": merge_issue,
                         }
                     )
                 self._send(
@@ -363,6 +605,7 @@ class Handler(BaseHTTPRequestHandler):
                     settings=payload.get("settings") or {},
                     command_text=str(payload.get("command") or ""),
                     output_dir=os.path.abspath(str(payload.get("outputDir") or "")),
+                    batch_items=payload.get("batchItems") or [],
                 )
                 CORE.persist_settings(
                     os.path.abspath(str(payload.get("outputDir") or "")),
@@ -518,6 +761,19 @@ class Handler(BaseHTTPRequestHandler):
             raise ValueError("请求为空或文件太大")
         return json.loads(self.rfile.read(length).decode("utf-8"))
 
+    def _write_request_body(self, target: Path):
+        remaining = int(self.headers.get("Content-Length", "0"))
+        if remaining <= 0 or remaining > MAX_UPLOAD_BYTES:
+            raise ValueError("模型文件为空或太大")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        with target.open("wb") as handle:
+            while remaining > 0:
+                chunk = self.rfile.read(min(1024 * 1024, remaining))
+                if not chunk:
+                    raise OSError("模型上传连接提前中断")
+                handle.write(chunk)
+                remaining -= len(chunk)
+
     def _serve_static(self, request_path):
         rel = unquote(request_path).lstrip("/") or "index.html"
         target = os.path.abspath(os.path.join(STATIC_ROOT, rel))
@@ -554,6 +810,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    _cleanup_upload_sessions()
     available, reason = ocr.available()
     if not available:
         print("OCR 不可用：%s" % reason)
