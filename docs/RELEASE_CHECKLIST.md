@@ -19,17 +19,26 @@
    host, including editable 3MF and printable output paths. Automated Codex
    runs must not be treated as a substitute for this host check.
 4. Confirm that a missing, modified or old `protected_core.exe` is rejected.
-5. Confirm no model, log, user configuration, API key, token, or password is
+5. Build the installer, then verify silent install, upgrade, uninstall,
+   `public_edition.flag`, `protected_core.exe` and its SHA-256.
+6. Confirm no model, log, user configuration, API key, token, or password is
    present in the Git diff.
-6. Review `NOTICE.md`, `THIRD_PARTY_NOTICES.md`, and the GPL text.
+7. Review `NOTICE.md`, `THIRD_PARTY_NOTICES.md`, and the GPL text.
+8. Commit and push `main`. Wait for GitHub Actions and Pages to become green.
+   Do not create or move a release tag before both are green.
 
 ## Tag and release
 
 ```powershell
 git add .
 git commit -m "Release PrintFarm Assistant 1.6.0-beta.1"
-git tag -a v1.6.0-beta.1 -m "PrintFarm Assistant 1.6.0-beta.1"
 git push origin main
+```
+
+Wait for CI and Pages to pass, then:
+
+```powershell
+git tag -a v1.6.0-beta.1 -m "PrintFarm Assistant 1.6.0-beta.1"
 git push origin v1.6.0-beta.1
 ```
 
