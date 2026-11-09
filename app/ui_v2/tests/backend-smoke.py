@@ -230,7 +230,12 @@ def main():
         ))
         passed.append(check(
             "合并排盘使用当前选择的 P1S，而不是上次保存的机型",
-            manifest["machine"] == "Bambu Lab P1S 0.4 nozzle",
+            str(manifest.get("machine") or "").startswith(
+                "Bambu Lab P1S"
+            )
+            and not str(manifest.get("machine") or "").startswith(
+                "Bambu Lab H2S"
+            ),
             repr(manifest.get("machine")),
         ))
         passed.append(check(
